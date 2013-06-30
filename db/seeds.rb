@@ -23,3 +23,12 @@ def setup_flags
   end
 end
 #setup_flags
+
+def setup_posts
+  Post.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','posts.txt')).each do |line|
+    name, description, status_id = line.chomp.split("|")
+    Post.create!(name: name, description: description, status_id: status_id)
+  end
+end
+#setup_posts

@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  resources :posts
+
   resources :statuses
 
   resources :flags
