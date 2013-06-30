@@ -4,4 +4,5 @@ class Doctor < ActiveRecord::Base
   belongs_to :post
   belongs_to :status
   has_many :records
+  has_many :quotum_doctors
 end

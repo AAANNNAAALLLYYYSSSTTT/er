@@ -1,0 +1,53 @@
+<%= form_for(@quotum_doctor) do |f| %>
+  <% if @quotum_doctor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@quotum_doctor.errors.count, "error") %> prohibited this quotum_doctor from being saved:</h2>
+
+      <ul>
+      <% @quotum_doctor.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :full %><br>
+    <%= f.text_field :full %>
+  </div>
+  <div class="field">
+    <%= f.label :currently %><br>
+    <%= f.text_field :currently %>
+  </div>
+  <div class="field">
+    <%= f.label :doctor_id %><br>
+    <%= f.collection_select :doctor_id, Doctor.all, :id, :name, { :prompt => 'Select doctor' } %>
+  </div>
+  <div class="field">
+    <%= f.label :post_id %><br>
+    <%= f.collection_select :post_id, Post.all, :id, :name, { :prompt => 'Select post' } %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :year %><br>
+    <%= f.text_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :month %><br>
+    <%= f.text_field :month %>
+  </div>
+  <div class="field">
+    <%= f.label :day %><br>
+    <%= f.text_field :day %>
+  </div>
+  <div class="field">
+    <%= f.label :status_id %><br>
+    <%= f.collection_select :status_id, Status.all, :id, :name, { :prompt => 'Select status' } %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

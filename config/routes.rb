@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  resources :quotum_doctors
+
   resources :records
 
   resources :accounts

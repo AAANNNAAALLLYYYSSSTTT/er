@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Full:</strong>
+  <%= @quotum_doctor.full %>
+</p>
+
+<p>
+  <strong>Currently:</strong>
+  <%= @quotum_doctor.currently %>
+</p>
+
+<p>
+  <strong>Doctor:</strong>
+  <%= @quotum_doctor.doctor.surname %>
+</p>
+
+<p>
+  <strong>Post:</strong>
+  <%= @quotum_doctor.post.name %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @quotum_doctor.description %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @quotum_doctor.year %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @quotum_doctor.month %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @quotum_doctor.day %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @quotum_doctor.status.name %>
+</p>
+
+<%= link_to 'Edit', edit_quotum_doctor_path(@quotum_doctor) %> |
+<%= link_to 'Back', quotum_doctors_path %>

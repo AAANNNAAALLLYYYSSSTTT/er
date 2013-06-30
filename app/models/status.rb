@@ -5,4 +5,5 @@ class Status < ActiveRecord::Base
   has_many :doctors
   has_many :roles
   has_many :accounts
+  has_many :quotum_doctors
 end

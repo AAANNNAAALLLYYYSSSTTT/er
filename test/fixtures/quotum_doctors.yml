@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  full: 
+  currently: 
+  doctor_id: 
+  post_id: 
+  description: 
+  year: 
+  month: 
+  day: 
+  status_id: 1
+
+two:
+  full: 
+  currently: 
+  doctor_id: 
+  post_id: 
+  description: 
+  year: 
+  month: 
+  day: 
+  status_id: 1

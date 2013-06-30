@@ -1,0 +1,43 @@
+<h1>Listing quotum_doctors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Full</th>
+      <th>Currently</th>
+      <th>Doctor</th>
+      <th>Post</th>
+      <th>Description</th>
+      <th>Year</th>
+      <th>Month</th>
+      <th>Day</th>
+      <th>Status</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @quotum_doctors.each do |quotum_doctor| %>
+      <tr>
+        <td><%= quotum_doctor.full %></td>
+        <td><%= quotum_doctor.currently %></td>
+        <td><%= quotum_doctor.doctor.surname %></td>
+        <td><%= quotum_doctor.post.name %></td>
+        <td><%= quotum_doctor.description %></td>
+        <td><%= quotum_doctor.year %></td>
+        <td><%= quotum_doctor.month %></td>
+        <td><%= quotum_doctor.day %></td>
+        <td><%= quotum_doctor.status.name %></td>
+        <td><%= link_to 'Show', quotum_doctor %></td>
+        <td><%= link_to 'Edit', edit_quotum_doctor_path(quotum_doctor) %></td>
+        <td><%= link_to 'Destroy', quotum_doctor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Quotum doctor', new_quotum_doctor_path %>

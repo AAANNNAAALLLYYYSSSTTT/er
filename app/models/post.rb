@@ -4,4 +4,5 @@ class Post < ActiveRecord::Base
 
   belongs_to :status
   has_many :doctors
+  has_many :quotum_doctors
 end
