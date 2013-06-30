@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+def setup_statuses
+  Status.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','statuses.txt')).each do |line|
+    name, description = line.chomp.split("|")
+    Status.create!(name: name, description: description)
+  end
+end
+#setup_statuses
