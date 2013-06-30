@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  resources :records
+
   resources :accounts
 
   resources :roles

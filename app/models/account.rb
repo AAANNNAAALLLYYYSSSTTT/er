@@ -6,4 +6,5 @@ class Account < ActiveRecord::Base
 
   belongs_to :role
   belongs_to :status
+  has_many :records
 end

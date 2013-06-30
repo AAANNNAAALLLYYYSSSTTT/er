@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Account:</strong>
+  <%= @record.account.name %>
+</p>
+
+<p>
+  <strong>Surname:</strong>
+  <%= @record.surname %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @record.name %>
+</p>
+
+<p>
+  <strong>Patronymic:</strong>
+  <%= @record.patronymic %>
+</p>
+
+<p>
+  <strong>Card:</strong>
+  <%= @record.card %>
+</p>
+
+<p>
+  <strong>Doctor:</strong>
+  <%= @record.doctor.surname %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @record.description %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @record.year %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @record.month %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @record.day %>
+</p>
+
+<p>
+  <strong>Hour:</strong>
+  <%= @record.hour %>
+</p>
+
+<p>
+  <strong>Minute:</strong>
+  <%= @record.minute %>
+</p>
+
+<p>
+  <strong>Flag:</strong>
+  <%= @record.flag.name %>
+</p>
+
+<%= link_to 'Edit', edit_record_path(@record) %> |
+<%= link_to 'Back', records_path %>
