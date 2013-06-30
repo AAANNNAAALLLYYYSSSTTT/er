@@ -14,3 +14,12 @@ def setup_statuses
   end
 end
 #setup_statuses
+
+def setup_flags
+  Flag.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','flags.txt')).each do |line|
+    name, description = line.chomp.split("|")
+    Flag.create!(name: name, description: description)
+  end
+end
+#setup_flags
