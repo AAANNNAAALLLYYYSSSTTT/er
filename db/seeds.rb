@@ -50,3 +50,12 @@ def setup_roles
   end
 end
 #setup_roles
+
+def setup_accounts
+  Account.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','accounts.txt')).each do |line|
+    name, password, password_confirmation, role_id, description, status_id = line.chomp.split("|")
+    Account.create!(name: name, password: password, password_confirmation: password_confirmation, role_id: role_id, description: description, status_id: status_id)
+  end
+end
+#setup_accounts

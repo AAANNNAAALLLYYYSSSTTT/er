@@ -4,4 +4,5 @@ class Status < ActiveRecord::Base
   has_many :posts
   has_many :doctors
   has_many :roles
+  has_many :accounts
 end

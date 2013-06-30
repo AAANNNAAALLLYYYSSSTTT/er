@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: 
+  password_digest: 
+  role_id: 
+  description: 
+  status_id: 1
+
+two:
+  name: 
+  password_digest: 
+  role_id: 
+  description: 
+  status_id: 1

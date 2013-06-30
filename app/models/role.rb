@@ -3,4 +3,5 @@ class Role < ActiveRecord::Base
   validates :name, uniqueness: true
 
   belongs_to :status
+  has_many :accounts
 end
