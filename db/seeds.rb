@@ -41,3 +41,12 @@ def setup_doctors
   end
 end
 #setup_doctors
+
+def setup_roles
+  Role.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','roles.txt')).each do |line|
+    name, description, status_id = line.chomp.split("|")
+    Role.create!(name: name, description: description, status_id: status_id)
+  end
+end
+#setup_roles
