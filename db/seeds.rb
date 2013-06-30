@@ -32,3 +32,12 @@ def setup_posts
   end
 end
 #setup_posts
+
+def setup_doctors
+  Doctor.delete_all
+  File.readlines(Rails.root.join('do', 'export', 'to', 'db', 'files','doctors.txt')).each do |line|
+    surname, name, patronymic, post_id, cabinet, description, status_id = line.chomp.split("|")
+    Doctor.create!(surname: surname, name: name, patronymic: patronymic, post_id: post_id, cabinet: cabinet, description: description, status_id: status_id)
+  end
+end
+#setup_doctors

@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  surname: 
+  name: 
+  patronymic: 
+  post_id: 
+  cabinet: 
+  description: 
+  status_id: 1
+
+two:
+  surname: 
+  name: 
+  patronymic: 
+  post_id: 
+  cabinet: 
+  description: 
+  status_id: 1

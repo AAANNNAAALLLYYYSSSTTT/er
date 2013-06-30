@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  resources :doctors
+
   resources :posts
 
   resources :statuses

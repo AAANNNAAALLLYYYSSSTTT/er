@@ -1,0 +1,45 @@
+<%= form_for(@doctor) do |f| %>
+  <% if @doctor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@doctor.errors.count, "error") %> prohibited this doctor from being saved:</h2>
+
+      <ul>
+      <% @doctor.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :surname %><br>
+    <%= f.text_field :surname %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :patronymic %><br>
+    <%= f.text_field :patronymic %>
+  </div>
+  <div class="field">
+    <%= f.label :post_id %><br>
+    <%= f.collection_select :post_id, Post.all, :id, :name, { :prompt => 'Select post' } %>
+  </div>
+  <div class="field">
+    <%= f.label :cabinet %><br>
+    <%= f.text_field :cabinet %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :status_id %><br>
+    <%= f.collection_select :status_id, Status.all, :id, :name, { :prompt => 'Select status' } %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

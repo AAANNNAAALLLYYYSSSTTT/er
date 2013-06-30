@@ -3,4 +3,5 @@ class Post < ActiveRecord::Base
   validates :name, uniqueness: true
 
   belongs_to :status
+  has_many :doctors
 end
