@@ -1,5 +1,6 @@
 Er::Application.routes.draw do
 
+  get "external_records/index"
   get "internal_records/index"
   resources :quotum_doctors
 

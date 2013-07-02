@@ -1,0 +1,2 @@
+module ExternalRecordsHelper
+end
