@@ -43,3 +43,6 @@ gem 'bcrypt-ruby', '~> 3.0.1'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+
+# Use Redis
+gem 'redis', '~> 3.0.4'
