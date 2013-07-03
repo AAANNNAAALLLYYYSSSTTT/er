@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  post 'date', to: 'date#create'
+
   controller :sessions do
     get 'login' => :new
     post 'login' => :create
