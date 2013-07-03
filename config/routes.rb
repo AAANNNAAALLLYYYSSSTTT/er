@@ -1,7 +1,15 @@
 Er::Application.routes.draw do
 
-  get "external_records/index"
-  get "internal_records/index"
+  controller :sessions do
+    get 'login' => :new
+    post 'login' => :create
+    delete 'logout' => :destroy
+  end
+
+  get 'external_records', to: 'external_records#index'
+
+  get 'internal_records', to: 'internal_records#index'
+
   resources :quotum_doctors
 
   resources :records
