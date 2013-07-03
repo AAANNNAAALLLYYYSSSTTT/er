@@ -1,5 +1,6 @@
 class FlagsController < ApplicationController
   before_action :set_flag, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin_ability
 
   # GET /flags
   # GET /flags.json

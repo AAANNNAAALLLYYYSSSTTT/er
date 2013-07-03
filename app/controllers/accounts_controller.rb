@@ -1,5 +1,6 @@
 class AccountsController < ApplicationController
   before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin_ability
 
   # GET /accounts
   # GET /accounts.json

@@ -1,5 +1,6 @@
 class QuotumDoctorsController < ApplicationController
   before_action :set_quotum_doctor, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin_ability
 
   # GET /quotum_doctors
   # GET /quotum_doctors.json

@@ -5,15 +5,27 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  protected
-    def check_authorize
-      redirect_to login_url, alert: "Not authorized." unless Account.find_by_id(session[:account_id])
-    end
-
   private
     def current_account
       current_user ||= Account.find_by_id(session[:account_id]) if session[:account_id]
     end
     helper_method :current_account
+
+    def is_current_account_roles? roles
+      roles.include? current_account.role.name.to_sym
+    end
+
+  protected
+    def check_authorize
+      redirect_to login_url, alert: "Not authorized." unless Account.find_by_id(session[:account_id])
+    end
+
+    def check_admin_ability
+      redirect_to login_url, alert: "Not authorized." unless is_current_account_roles? [:admin]
+    end
+
+    def check_user_ability
+      redirect_to login_url, alert: "Not authorized." unless is_current_account_roles? [:admin, :user]
+    end
 
 end
