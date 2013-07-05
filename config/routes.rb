@@ -11,6 +11,7 @@ Er::Application.routes.draw do
   get 'external_records', to: 'external_records#index'
 
   get 'internal_records', to: 'internal_records#index'
+  post 'internal_records', to: 'internal_records#create'
 
   resources :quotum_doctors
 

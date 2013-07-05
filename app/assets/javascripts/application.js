@@ -31,3 +31,48 @@ function loaded_css(url) {
     stylesheet_element_new.setAttribute("href", url);
     document.getElementsByTagName("head")[0].appendChild(stylesheet_element_new);
 }
+
+function info(message) {
+    noty({
+        layout: 'bottomRight',
+        animation: {
+            open: {height: 'toggle'},
+            close: {height: 'toggle'},
+            easing: 'swing',
+            speed: 500,
+        },
+        text: message,
+        timeout: 3000,
+        closeOnSelfClick: true,
+    });
+}
+
+var Class = function(methods) {
+    var class_function = function() {
+        this.initialize.apply(this, arguments);
+    };
+
+    for (var property in methods) {
+        class_function.prototype[property] = methods[property];
+    }
+
+    if (!class_function.prototype.initialize) class_function.prototype.initialize = function(){};
+
+    return class_function;
+};
+
+function replaceText(el, str) {
+    el.textContent ? el.textContent = "" : el.innerHTML = "";
+    el.textContent ? el.textContent = str : el.innerHTML = str;
+}
+
+function replacer(key, value) {
+    if (typeof value === 'string' && !isFinite(value)) {
+        return value.trim();
+    } else if (typeof value === 'number' && !isFinite(value)) {
+        return String(value);
+    } else if (typeof value === 'boolean' && !isFinite(value)) {
+        return String(value);
+    }
+    return value;
+}

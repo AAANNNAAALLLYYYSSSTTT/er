@@ -6,13 +6,23 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   private
-    def current_account
-      current_user ||= Account.find_by_id(session[:account_id]) if session[:account_id]
+    def logged_in?
+      not session[:account_id].nil?
     end
-    helper_method :current_account
+
+    def current_account
+      current_user ||= Account.find_by_id(session[:account_id]) if logged_in?
+    end
 
     def is_current_account_roles? roles
       roles.include? current_account.role.name.to_sym
+    end
+
+    def get_selected_date_for_current_user
+      year = $redis.hget session[:account_id], :year
+      month = $redis.hget session[:account_id], :month
+      day = $redis.hget session[:account_id], :day
+      Time.new(year, month, day)
     end
 
   protected

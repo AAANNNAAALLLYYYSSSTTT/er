@@ -1,0 +1,32 @@
+<table id="quotasContent" style="width: 100%;">
+  <thead>
+    <tr>
+      <td>№</td>
+      <td>Фамилия</td>
+      <td>Имя</td>
+      <td>Отчество</td>
+      <td>Должность</td>
+      <td>Квота</td>
+      <td>Доступно</td>
+      <td>Описание</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @doctors.each do |doctor| %>
+      <tr>
+        <td><div class="label"><%= doctor.id %></div></td>
+        <td><div class="label"><%= doctor.surname %></div></td>
+        <td><div class="label"><%= doctor.name %></div></td>
+        <td><div class="label"><%= doctor.patronymic %></div></td>
+        <td><div class="label"><%= doctor.post.name %></div></td>
+        <td><input class="textBox" placeholder="Квота" type="text" name="quota" style="width:200px;" value="<%= 25 %>" form="data" /></td>
+        <td>
+          <span class="checkBox">
+            <input type="checkbox" name="active" value="on" tabindex="0" checked="" form="data" />
+          </span>
+        </td>
+        <td><input class="textBox" placeholder="Описание" type="text" name="description" style="width:200px;" value="" form="data" /></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

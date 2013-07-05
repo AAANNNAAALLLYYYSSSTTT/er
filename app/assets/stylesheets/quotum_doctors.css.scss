@@ -1,3 +1,20 @@
 // Place all the styles related to the QuotumDoctors controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.quotum_doctors {
+  .cellsBlock {
+    width: 100%;
+    display: table;
+
+    .cellLeft, .cellRight {
+      display: table-cell !important;
+      display: inline;            /* IE */
+      vertical-align: top;
+    }
+
+    .cellRight {
+      float: right;
+    }
+  }
+}

@@ -5,14 +5,14 @@ class QuotumDoctorsController < ApplicationController
   # GET /quotum_doctors
   # GET /quotum_doctors.json
   def index
-    @quotum_doctors = QuotumDoctor.all
+    @doctors = Doctor.where(status_id: 1).order(:surname)
   end
 
   # GET /quotum_doctors/1
   # GET /quotum_doctors/1.json
   def show
   end
-
+ 
   # GET /quotum_doctors/new
   def new
     @quotum_doctor = QuotumDoctor.new
@@ -25,16 +25,32 @@ class QuotumDoctorsController < ApplicationController
   # POST /quotum_doctors
   # POST /quotum_doctors.json
   def create
-    @quotum_doctor = QuotumDoctor.new(quotum_doctor_params)
-
     respond_to do |format|
-      if @quotum_doctor.save
-        format.html { redirect_to @quotum_doctor, notice: 'Quotum doctor was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @quotum_doctor }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @quotum_doctor.errors, status: :unprocessable_entity }
-      end
+      date = get_selected_date_for_current_user
+      @quotum_doctors = QuotumDoctor.where(year: date.year, month: date.month, day: date.day).order(:id)
+      format.html {
+        if @quotum_doctors.count == 0
+          @doctors = Doctor.where(status_id: 1).order(:surname)
+          render :layout => false, template: 'quotum_doctors/_empty_quotum_doctors'
+        else
+          render :layout => false, template: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
+        end
+      }
+      format.json {
+        parsed_json_quotas = ActiveSupport::JSON.decode(params[:quotas])
+        parsed_json_quotas.each do |quota_hash|
+          doctor = Doctor.find_by_id(quota_hash['key'].to_i)
+
+          quotum_doctor = QuotumDoctor.find_or_create_by(year: date.year, month: date.month, day: date.day, doctor: doctor)
+          quotum_doctor.full = quota_hash['quota'].to_i
+          quotum_doctor.currently = quota_hash['quota'].to_i
+          quotum_doctor.status = quota_hash['active'] ? Status.find_by_id(1) : Status.find_by_id(3)
+          quotum_doctor.post = doctor.post
+          quotum_doctor.description = quota_hash['description']
+          quotum_doctor.save
+        end
+        render json: {status: "Ok"}
+      }
     end
   end
 
