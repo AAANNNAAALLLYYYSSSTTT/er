@@ -1,0 +1,50 @@
+<table id="patients">
+  <thead>
+    <tr>
+      <th>
+        <%= @doctor.surname %> <%= @doctor.cabinet %>
+      </th>
+      <th>
+        <input type="hidden" value="<%= @doctor.id %>" name="doctor_id" />
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @external_records.each do |record| %>
+      <tr>
+        <td>
+          <input type="text" class="textBox" disabled="" value="<%= record.surname %>: <%= record.card %>" style="width: 300px;" />
+        </td>
+        <td>
+        </td>
+      </tr>
+      <% end %>
+      <% @internal_records.each do |record| %>
+    <tr>
+      <td>
+        <input id="<%= record.id %>" type="text" class="textBox" value="<%= record.description %>" style="width: 300px;" />
+      </td>
+      <td>
+      </td>
+    </tr>
+    <% end %>
+    <% @empty_records_count.times { %>
+    <tr>
+      <td>
+        <input type="text" class="textBox" value="" style="width: 300px;" />
+      </td>
+      <td>
+      </td>
+    </tr>
+    <% } %>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">
+        <% unless @records.none? %>
+          <button id="saveAll" class="button" type="button">Сохранить</button>
+        <% end %>
+      </td>
+    </tr>
+  </tfoot>
+</table>

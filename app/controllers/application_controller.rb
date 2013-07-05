@@ -38,4 +38,8 @@ class ApplicationController < ActionController::Base
       redirect_to login_url, alert: "Not authorized." unless is_current_account_roles? [:admin, :user]
     end
 
+    def check_receptionist_ability
+       redirect_to login_url, alert: "Not authorized." unless is_current_account_roles? [:admin, :receptionist]
+    end
+
 end

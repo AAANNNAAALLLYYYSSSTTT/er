@@ -1,0 +1,14 @@
+<% @posts.each do |post| %>
+  <h3><%= post.name %></h3>
+  <div>
+    <ul>
+      <% @doctors.each do |doctor| %>
+        <% if doctor.post == post %>
+          <li>
+            <a id="<%= doctor.id %>" class="new_records"><%= doctor.surname %> <%= doctor.name %></a>
+          </li>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
