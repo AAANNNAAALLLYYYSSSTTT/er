@@ -1,5 +1,6 @@
 Er::Application.routes.draw do
 
+  get "receptions/index"
   post 'date', to: 'date#create'
 
   controller :sessions do
