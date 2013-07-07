@@ -46,3 +46,6 @@ gem 'bcrypt-ruby', '~> 3.0.1'
 
 # Use Redis
 gem 'redis', '~> 3.0.4'
+
+# Use Google API Client
+gem 'google-api-client', '~> 0.6.4'

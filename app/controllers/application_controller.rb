@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   private
     def logged_in?
-      not session[:account_id].nil?
+      not session[:access_token].nil?
     end
 
     def current_account
@@ -19,15 +19,15 @@ class ApplicationController < ActionController::Base
     end
 
     def get_selected_date_for_current_user
-      year = $redis.hget session[:account_id], :year
+      year  = $redis.hget session[:account_id], :year
       month = $redis.hget session[:account_id], :month
-      day = $redis.hget session[:account_id], :day
+      day   = $redis.hget session[:account_id], :day
       Time.new(year, month, day)
     end
 
   protected
     def check_authorize
-      redirect_to login_url, alert: "Not authorized." unless Account.find_by_id(session[:account_id])
+      redirect_to login_url, alert: "Not authorized." unless logged_in?
     end
 
     def check_admin_ability

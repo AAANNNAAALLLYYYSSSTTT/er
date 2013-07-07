@@ -1,17 +1,18 @@
 Er::Application.routes.draw do
 
   get "receptions/index"
+
   post 'date', to: 'date#create'
 
   controller :sessions do
-    get 'login' => :new
-    post 'login' => :create
-    delete 'logout' => :destroy
+    get    'login'          => :new
+    get    'oauth2callback' => :callback
+    delete 'logout'         => :destroy
   end
 
-  get 'external_records', to: 'external_records#index'
+  get  'external_records', to: 'external_records#index'
 
-  get 'internal_records', to: 'internal_records#index'
+  get  'internal_records', to: 'internal_records#index'
   post 'internal_records', to: 'internal_records#create'
 
   resources :quotum_doctors
