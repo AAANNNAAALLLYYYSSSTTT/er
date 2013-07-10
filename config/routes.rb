@@ -1,6 +1,9 @@
 Er::Application.routes.draw do
 
-  get "receptions/index"
+  get  'ticket_empty', to: 'ticket#index'
+  post 'ticket_empty', to: 'ticket#index'
+
+  get 'receptions/index'
 
   post 'date', to: 'date#create'
 
