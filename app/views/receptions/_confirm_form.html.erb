@@ -1,0 +1,229 @@
+<div id='question-div'>
+  Проверьте, все ли верно
+</div>
+<div id='personal-wrap-table'>
+  <table id = 'personal-tbl'>
+    <col width="150">
+    <tr>
+      <td id='personal-lpu-info' class='personal-tbl-info'> МО:
+      </td>
+      <td id='personal-lpu-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-lpu-address-info' class='personal-tbl-info'> Адрес:
+      </td>
+      <td id='personal-lpu-address-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-service-info' class='personal-tbl-info'> Услуга:
+      </td>
+      <td id='personal-service-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-doctor-info' class='personal-tbl-info'> Врач:
+      </td>
+      <td id='personal-doctor-value' class='personal-tbl-value'>
+	<div id='personal-doctor-name-value'>
+	</div>
+	<div id='personal-doctor-job-value'>
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-cost-info' class='personal-tbl-info' style='display: none;'> Стоимость:
+      </td>
+      <td id='personal-cost' class='personal-tbl-value'>
+	<div id='personal-cost-value'>
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-room-info' class='personal-tbl-info'> Кабинет:
+      </td>
+      <td id='personal-room-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-date-info' class='personal-tbl-info'> Дата приема:
+      </td>
+      <td id='personal-date-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+    <tr>
+      <td id='personal-time-info' class='personal-tbl-info' style='display: none;'> Время приема:
+      </td>
+      <td id='personal-time-value' class='personal-tbl-value'>
+      </td>
+    </tr>
+  </table>
+</div>
+<button id='register-to-reception' class='register-to-reception-cls' type="button"></button>
+<!--<button id='btn-print-ticket' type="button"></button>-->
+<button id='btn-go-main-page' type="button"></button>
+<iframe style="visibility:hidden;" id='print-frame' name='printFrame' src='/ticket_empty'></iframe>
+<script type="text/javascript">
+$(function(){
+    getLPUCallback(); // миск: убрать.
+
+    Timeout.refresh();
+var step_title = $('#step-title');
+step_title.removeClass();
+step_title.addClass('confirm-step-title');
+
+setStep('#step-confirm');
+
+getEditSearch().hide()
+getFreeTimesElem().hide();
+$('#to-pay-choice').hide()
+
+var params = {command: 'back'
+,type: 'auth'
+,profile_id: reception_doctor.profile.id
+,lpu_id: reception_doctor.lpu.id
+,doctor_id: reception_doctor.doctor.id 
+,is_free: reception_doctor.is_free};
+
+// Устанавливает шаг
+setActiveStep('#select-auth-btn-doc', function(){
+bindStep(params) 
+});
+
+//Вешает обработчик на кнопку "Назад"
+selectBack(params);
+
+//Скрываем плашку типа приема
+$('#visit-type').hide();
+
+var struct = reception_doctor;
+$('#personal-doctor-name-value').html( struct.doctor.name );
+$('#personal-doctor-job-value').html( struct.doctor.job );
+
+
+
+struct.room = 'Кабинет терапии';
+$('#personal-room-value').html(struct.room );
+
+
+$('#personal-lpu-value').html( struct.lpu.name );
+$('#personal-lpu-address-value').html(struct.lpu.address);
+$('#personal-service-value').html( struct.profile.name );
+
+if (struct.is_free==1) {
+$('#personal-cost-value').html('Бесплатно');
+} else {
+//$('#auth-info #cost-wrap .info-element .info-data').css('margin-top','17px');// 17 как в main.css, если какая-то стоимость задана
+$('#personal-cost-value').html( struct.type_reception.cost );
+}
+
+
+if ( struct.time.date ) {
+var day = struct.time.date.getDate();
+var month = getMonthParentCase( struct.time.date.getMonth() );
+var year = struct.time.date.getFullYear();
+var day_str = getDayStr( struct.time.date.getDay() );
+$('#personal-date-value').html( day + ' ' + month + ' ' + year + ' (' + day_str + ')' );
+$('#personal-time-value').html( struct.time.start_time );
+
+}
+
+// Посылает запрос с персональными данными
+var recptBtn = $('#register-to-reception');
+recptBtn.unbind('click');
+recptBtn.bind('click', function(){
+
+        // TODO: hot-hot-hotfix, блокировка страницы форнта, множество обезьяньих вставок
+        LockPage()
+
+        var str_date = struct.time.date.getDate() + '.' +
+(struct.time.date.getMonth()+1) + '.' + 
+struct.time.date.getFullYear();
+
+$.ajax({
+url: document.location.href
+,type: "POST"
+    ,dataType : 'json'
+,data: {
+command:'next'
+,type: 'auth'
+,num_passport: reception_doctor.personalData.num_passport
+,num_med_policy: reception_doctor.personalData.num_med_policy
+,telephone: reception_doctor.personalData.telephone
+,email: reception_doctor.personalData.email
+,account_card_id: struct.accauntCardId
+,service_point: struct.service_point.id
+,profile_id: struct.profile.id
+,lpu_id: struct.lpu.id
+                ,not_confirmed_patient:reception_doctor.self_registered
+,type_reseption: struct.is_free
+,date: str_date
+,time: struct.time.start_time
+                ,is_infomate: reception_doctor.isInfomate
+                ,employee: struct.doctor.id
+                ,snils: reception_doctor.personalData.snils
+}
+,success: function(data, statusText, scope) {
+
+                // TODO: hot-hot-hotfix, разблокировка страницы форнта, множество обезьяньих вставок
+                UnLockPage();
+
+                /* Если приходит сообщение об ошибке*/
+    if(data.messages){
+       $('.message-window-text').html(data.messages[0]);
+       $('#error-window').show();
+
+   /* Убираем обработчик с кнопки записаться на прием*/
+   recptBtn.unbind('click');
+       
+   /* Обработчик на клик по окно сообщения */
+      $('#error-window').click( function (){
+                        $('#error-window').hide();
+            $('#select-back-btn').click();
+});
+    }
+else{
+                    // Пациент записан:
+                    var step_title = $('#step-title');
+                    step_title.removeClass();
+                    step_title.addClass('info-step-title');
+
+                    setStep('#step-info');
+
+                    recptBtn.unbind('click');
+                    recptBtn.removeClass();
+                    recptBtn.addClass('register-to-reception-info');
+
+                    $('#question-div').css('color','#26762D');
+                    getBackBtn().hide();
+                    getHomeBtn().hide();
+                    gotoMainPage('.register-to-reception-info');
+                    $('#btn-go-main-page').show();
+                    gotoMainPage('#btn-go-main-page');
+                    if (data.phone){
+                        reception_doctor.lpu.phone = data.phone;
+                        }
+                    reception_doctor.process_id = data.wf_id;
+                    // Печать талона:
+                    if (reception_doctor.isInfomate) {printTicket()}
+                    else if (reception_doctor.lpu.code) {printTicketMisc()} //миск: убрать
+                    else {$('#btn-print-ticket').show()}
+    }
+
+}
+,error: function(response){
+//$('#error-message').html( response.responseText );
+//$('#error-message').show();
+                UnlockByError()
+}
+});
+});
+
+    $('#btn-print-ticket').bind('click', printTicket);
+
+/* Помощь */
+selectInfo('#help_button', 'help', 'check_help');
+});
+
+</script>

@@ -1,0 +1,15 @@
+<ul>
+  <% @posts.each do |post| %>
+  <li class='profile-li2'>
+    <div class='profile-div2'>
+
+      <div class='profile-span2' id='<%= post.id %>'>
+	<%= post.name %>
+      </div>
+
+      <button class='profile-info2' type="button" align='right'>Инфо.</button>
+
+    </div>
+  </li>
+  <% end %>
+</ul>

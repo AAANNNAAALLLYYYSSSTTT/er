@@ -1,0 +1,108 @@
+<div id="scroll-wrap">
+  <div id='scroll-wrap2'>
+    <div class="scroll-panel">
+      <div id='profile-choise'>
+	<script type="text/javascript">
+$(function() {
+  Timeout.refresh();
+// Вешает обработчик на нажатие по изобржению info
+selectInfo('.profile-info2', 'profile');
+// Вешает обработчик на клик по элементу с классом ()
+function click_profile(element){
+$(element).click(function(){ 
+var scope = this;
+var idElement =  $(scope).attr('id');
+var name = $(scope).html().trim();
+selectStep({
+type: 'profile'
+,profile_id: idElement
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free
+}, function(){
+reception_doctor.profile.id = idElement;
+reception_doctor.profile.name = name;
+});
+});
+}
+click_profile('.profile-span2');
+/* Помощь */
+selectInfo('#help_button', 'help', 'profile_help');
+})
+</script>
+	<!-- 
+	     размер шрифта size определяется в зависимости от количества символов в 
+	     наименовании, но не должен быть меньше 14pt.
+	  -->
+	<%= render( partial: 'receptions/posts') %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function() {
+    Timeout.refresh();
+var step_title = $('#step-title');
+step_title.removeClass();
+step_title.addClass('profile-step-title');
+
+    // Отцепляем обработчик ввода со страницы авторизации
+    $("#keyboard-container, #keyboard-num-container").unbind("click");
+
+setStep('#step-profile');
+
+getEditSearch().show()
+getFreeTimesElem().hide();
+
+    setEvents('#master-searchbar-input');
+bindGoSearch({type: 'profile'
+                ,is_free: reception_doctor.is_free
+,account_card_id: reception_doctor.accauntCardId || ''}
+,$('#profile-choise'));
+
+
+$('#visit-type').show();
+if (reception_doctor.is_free == 0) {
+$('#visit-type').removeClass();
+$('#visit-type').addClass('pay-visit-class');
+} else {
+$('#visit-type').removeClass();
+$('#visit-type').addClass('free-visit-class');
+}
+   
+   // Устанавливает шаг
+    setActiveStep('#select-profile-btn');
+
+// Вешаем на ввод поиска подсказку
+InputHelperCreate ( $( '#master-searchbar-input' ).get( 0 ), 'Поиск по наименованию');
+    if (reception_doctor.is_free) {
+        var params = {command: 'back'
+,type: 'profile'};
+    selectBack(params);
+    }
+    else {
+        // Проверяем попал ли пользователь на страницу выбора профиля после того, как в расписании врача выбрал платный прием
+        if (reception_doctor.from_select_time) {
+            // Если это так
+            var params = {command: 'next',
+                        type: 'doctor',
+                        doctor_id: reception_doctor.doctor.id,
+                        profile_id: reception_doctor.profile.id,
+                        lpu_id: reception_doctor.lpu.id,
+                        is_free: 1};
+            selectBack(params);
+            reception_doctor.is_free = 0;
+            reception_doctor.from_select_time = 0;
+
+        } else {
+            gotoMainPage('#select-back-btn');
+        }
+    }
+
+    $('.scroll-panel').jScrollPane();
+//$('.scroll-panel').css('width','845px');
+
+    if ('10' < 11) {
+        $('#profile-choise').css('margin-left','25px');
+    }
+})
+</script>

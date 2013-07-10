@@ -1,0 +1,342 @@
+<script type="text/javascript">
+$(function(){
+
+  // Пришлось продублировать код
+  // Нужно для смены надписи при переходе с выбора профиля обратно на выбор времени 
+  $('#visit-type').show();
+  if (reception_doctor.is_free == 0) {
+$('#visit-type').removeClass();
+$('#visit-type').addClass('pay-visit-class');
+  } else {
+$('#visit-type').removeClass();
+$('#visit-type').addClass('free-visit-class');
+  }
+  
+  $('#select-free-times').css('visibility','visible'); 
+  Timeout.refresh();
+var step_title = $('#step-title');
+step_title.removeClass();
+step_title.addClass('time-step-title');
+
+setStep('#step-time');
+
+getEditSearch().hide();
+
+
+
+
+    
+        getFreeTimesElem().hide();
+    
+
+var date = new Date();
+current_date.month = date.getMonth()+1;
+current_date.year = date.getFullYear();
+
+var month = $('#calendar-title tr td#month');
+month.html(getMonthStr(current_date.month) + ' ' + current_date.year);
+
+// Нажатие на кнопку назад
+var back_month = $('#calendar-title tr td button#back-month');
+back_month.bind('click', function(){
+var month = current_date.month;
+var year = current_date.year;
+if (current_date.month==1) {
+month = 12;
+year -= 1;
+} else {
+month -= 1; 
+};
+
+var day = '';
+if ( (date.getMonth()+1) == month) {
+day = date.getDate();
+}
+
+
+getShedulesPerMonth({
+lpu_id: reception_doctor.lpu.id
+,profile_id: reception_doctor.profile.id
+,doctor_id: reception_doctor.doctor.id
+},
+month, 
+year,
+day);
+
+});
+
+// Нажатие на кнопку вперед
+var next_month = $('#calendar-title tr td button#next-month');
+next_month.bind('click', function(){
+var month = current_date.month;
+var year = current_date.year;
+if (current_date.month==12) {
+month = 1;
+year += 1;
+} else {
+month += 1; 
+};
+
+var day = '';
+if ( (date.getMonth()+1) == month) {
+day = date.getDate();
+}
+
+
+getShedulesPerMonth({
+lpu_id: reception_doctor.lpu.id
+,profile_id: reception_doctor.profile.id
+,doctor_id: reception_doctor.doctor.id
+},
+month, 
+year,
+day);
+
+});
+
+
+
+
+
+// Отметка текущего дня
+function selectedDay(day, month, year) {
+var cdate = new Date();
+var curr_month = cdate.getMonth()+1;
+var curr_year = cdate.getFullYear();
+
+$('#calendar-body tr td#free-day').each(function(){
+var iday = $(this);
+var number_day = iday.html().trim();
+if (day==number_day  && curr_month==month && curr_year==year) {
+$(this).removeClass('free-day');
+$(this).addClass('today');
+}
+});
+};
+selectedDay( new Date().getDate(), date.getMonth()+1, date.getFullYear() );
+    
+});
+/**
+ * Получение ближайшего свободного времени
+ */
+  
+function selectNearestFreeTime(flag){
+    var free_reseption = $('#time-cost-table tr td#free-reseption');
+    var is_free = reception_doctor.is_free
+
+
+var params = {
+command: 'next'
+,type: 'time'
+,subtype: 'nearest_shedule'
+,lpu_id: reception_doctor.lpu.id
+,profile_id: reception_doctor.profile.id
+,doctor_id: reception_doctor.doctor.id
+,is_free: is_free
+};
+
+
+$.ajax({
+    url: document.location.href
+,type: "POST"
+    ,dataType : 'json'
+,data: params
+    ,success: function (data) {
+if (data) {
+if (data.success) {
+          if (flag=='VIEW'){
+            var day = new Date( data.date );
+            $('#select_free_time').text(day.getDate()+' '+getMonthParentCase(day.getMonth())+' '+data.time);
+          }else{
+// запрос на сервер для получение следующего шага
+var day = new Date( data.date );
+var time = data.time;
+var shedule_id = data.shedule_id;
+
+
+var struct_for_reception = reception_doctor;
+
+
+selectSheduleTime(struct_for_reception, day, time, shedule_id);
+}
+} else {
+// ближайшего свободного времени нет
+$('#select_free_time').text('нет свободного');
+}
+}
+    }
+});
+
+};
+</script>
+<div id='time-title'>
+  <div id='time-descr'>
+    <table id='time-descr-table'>
+      <tr>
+	<td align='right'>ЛПУ:</td>
+	<td class='value-desc' ><%= @account.description %></td>
+      </tr>
+      <tr>
+	<td align='right'>Врач:</td>
+	<td id='service' class='value-desc' ><%= @doctor_selected.surname %> <%= @doctor_selected.name %></td>
+      </tr>
+      <tr>
+	<td align='right'>Профиль:</td>
+	<td class='value-desc' ><%= @doctor_selected.post.name %></td>
+	</tr>
+    </table>
+  </div>
+  <!-- button id='select-free-times' type="button" onclick='selectNearestFreeTime()'></button-->
+  <div id='time-topbar'>
+    <table id='time-cost-table' >
+      <tr>
+	<td>
+	  <div id='legend-available'>
+	    <div id='legend-available-text'>
+	      Свободные дни
+	    </div>
+	  </div>
+	</td>
+        <td>
+          <div id='legend-noreception'>
+            <div id='legend-noreception-text'>
+              Нет приема
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+	<td>
+	  <div id='legend-inaccessible'>
+	    <div id='legend-inaccessible-text'>
+	      Занятые дни
+	    </div>
+	  </div>
+	</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div id='time-center'>
+  <div id='calendar'>
+    <table id='calendar-title'>
+      <tr>
+	<td>
+	  <div align='left'>
+	    <button id='back-month' type="button"></button> 
+	  </div>
+	</td>
+	<td id='month'></td>
+	<td>
+	  <div align='right'>
+	    <button id='next-month' type="button"></button>
+	  </div>
+	</td>
+      </tr>
+    </table>
+    <table cellspacing="0" id='calendar-body'>
+      <thead>
+	<tr>
+	  <th>ПН</th><th>ВТ</th><th>СР</th>
+	  <th>ЧТ</th><th>ПТ</th><th>СБ</th>
+	  <th>ВС</th>
+	</tr>
+      </thead>
+      <tbody>
+	<% @month_days.each do |week_days| %>
+	<tr>
+	  <% week_days.each do |day| %>
+	  <% if @status_days[day] %>
+	  <td class='free-day' id='free-day'>
+	    <%= day %>
+	  </td>
+	  <% elsif @status_days[day] == false %>
+	  <td class='busy-day' id='busy-day'>
+	    <%= day %>
+	  </td>
+	  <% elsif day == 0 %>
+	  <td class='none-day'>
+	  </td>
+	  <% else %>
+	  <td>
+	  </td>
+	  <% end %>
+	  <% end %>
+	</tr>
+	<% end %>
+<script "text/javascript">
+$(function(){
+  Timeout.refresh();
+var select_day = $('#calendar-body tr td#free-day');
+select_day.unbind('click');
+select_day.bind('click', function(){
+selectDay({
+ lpu_id: reception_doctor.lpu.id
+,profile_id: reception_doctor.profile.id
+,doctor_id: reception_doctor.doctor.id
+},
+$(this));
+});
+/* Выбирает текущий день */
+$('#calendar-body tr td#free-day.today').click();
+})
+</script>
+</tbody>
+    </table>
+  </div>
+  <div id='schedule-to-date'></div>
+  <div id='scroll-time'>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+
+    
+if (reception_doctor.is_free != 0){
+$('#to-pay-choice').show();
+        $('#to-pay-choice').unbind("click");
+$('#to-pay-choice').click( function (){
+            reception_doctor.from_select_time = 1;
+reception_doctor.is_free = 0;
+        $.ajax({
+            url: document.location.href
+            ,type: "POST"
+            ,dataType : 'html'
+            ,data: {command: 'back'
+,type: 'lpu'
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free}
+            ,success: function (data, textStatus) { 
+                $('#to-pay-choice').hide()
+                if (data) {
+                    // master-content - место для изменяемых данных, определено в шаблоне er-reception-to-doctor.html
+                    var content = $('#master-content');                 
+                    content.html(data); 
+                }
+            }
+        });
+    }); 
+    }
+    
+var params = {command: 'back'
+,type: 'time'
+,profile_id: reception_doctor.profile.id
+,lpu_id: reception_doctor.lpu.id
+,doctor_id: reception_doctor.doctor.id
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free
+            ,lpu_way: reception_doctor.lpuWay
+            };
+
+// Устанвливает шаг
+setActiveStep('#select-time-btn-doc', function(){
+bindStep(params) 
+});
+
+//Вешает обработчик на кнопку "Назад"
+selectBack(params);
+
+/* Помощь */
+selectInfo('#help_button', 'help', 'time_help');
+});
+</script>

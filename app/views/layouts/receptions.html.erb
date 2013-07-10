@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Единая регистратура</title>
+    <!-- jquery -->
+    <script type="text/javascript" src="/scripts/vendor/jquery/jquery.js"></script>
+    <!-- Для замены внешнего вида стандартного скроллера -->
+    <link rel="stylesheet" type="text/css" media="all" href="/stylesheets/vendor/jquery/plugins/jquery.jscrollpane.css" />
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.jscrollpane.js"></script> 
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.mousewheel.js"></script>
+    <!-- Электронную клавиатуру -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/plugins/keyboard.css" />
+    <script type="text/javascript" src="/scripts/plugins/keyboard.js" charset="UTF-8"></script>
+    <!-- Календарь -->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/plugins/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/apps/receptions/reception.css" />	 
+    <script type="text/javascript" src="/scripts/apps/receptions/receptions.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/jquery/plugins/jquery.jdropdown.css" />
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.jdropdown.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.inputmask.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.inputmask.extensions.js"></script>
+    <script type="text/javascript" src="/scripts/vendor/jquery/plugins/jquery.uilock.js"></script>
+    <!-- IE 7/8/9 -->
+    <!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/plugins/main_ie7.css" />
+	<![endif]-->
+    <!--[if IE 8]>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/plugins/main_ie8.css" />
+	<![endif]-->
+    <!--[if IE 9]>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/plugins/main_ie8.css" />
+	<![endif]-->
+    <link href="/stylesheets/vendor/jquery/plugins/jquery.lock_page.css" rel="stylesheet" type="text/css" />
+    <%= csrf_meta_tags %>
+    <%= yield %>
+  </body>
+</html>
+<!--Fix для ie 7/8-->
+<script type="text/javascript">
+
+//Проверяет является ли устройство Ipad'ом
+var isiPad = navigator.userAgent.match(/iPad/i) != null;
+if (isiPad){
+$("head").append($("<link rel='stylesheet' media='only screen and \
+			  (max-device-width: 1024px)' href='/static/er/css/main_ipad.css' \
+			  type='text/css'/>"));
+}
+
+// проверяем, не слишком ли древний у клиента ie.
+if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)){
+ var ieversion=new Number(RegExp.$1);
+ if (ieversion<7)
+    window.location = '/unsupported-browser';
+}
+
+if(typeof String.prototype.trim !== 'function') {
+  String.prototype.trim = function() {
+    return this.replace(/^\s+|\s+$/g, ''); 
+  }
+}
+
+function onFreeTimes(){
+		 if (reception_doctor.accauntCardId) {
+		  selectNearestFreeTime('SELECT');
+		 } else {
+		 showAuthWindow(
+		 function(){
+		 selectStep({
+		 type: 'profile'
+		 ,profile_id: reception_doctor.profile.id
+		 ,account_card_id: reception_doctor.accauntCardId || ''
+		 ,is_free: reception_doctor.is_free
+		 }, function(){});
+		 },
+		 2); // 2 - авторизация вызывается
+		 }
+}
+
+function updateTime(){
+    var date = new Date();
+		 var defpath = '#master-header-wrapper div#header-title div#date-time ';
+    $('#master-header-wrapper div#header-title div#date-time div#time span#colon').toggle();
+
+    var hour_el = $(defpath + 'div#time span#hour');
+    if (hour_el.html().trim() != date.getHours()) {
+        hour_el.html( date.getHours() )
+    }
+    var minute_el = $(defpath + 'div#time span#minute');
+    if (minute_el.html().trim() != date.getMinutes()) {
+        minute_el.html( (date.getMinutes()<10 ) ? '0'+date.getMinutes() : date.getMinutes() );
+    }
+    
+    var day_el = $(defpath + 'div#date span#day')
+    if (day_el.html().trim() != date.getDate() ) {
+        day_el.html( date.getDate() );
+        var day_text = $(defpath + 'div#date span#day-text');
+        var res = getMonthParentCase( date.getMonth() ) + ', ' + getDayStr( date.getDay() );
+        day_text.html(res);
+    }
+    
+    setTimeout("updateTime()",1000)
+}
+
+
+function errWinSetStyle(win) {
+    if ((win.id == 'error-window') && ($('.message-window-text').text().length > 1000)) {
+        $('.message-window-content').addClass('message-window-content-resize');
+        $('.message-window-header').addClass('message-window-header-resize');
+        $('.message-window-text').addClass('message-window-text-resize');
+
+    } else {
+        $('.message-window-content').removeClass('message-window-content-resize');
+        $('.message-window-header').removeClass('message-window-header-resize');
+        $('.message-window-text').removeClass('message-window-text-resize');
+    }
+
+}
+
+function errWinSetEventOnShow() {
+    // Инициализируем событие на показ элемента
+    document.documentElement.addEventListener('DOMAttrModified', function(e){
+        if ( ($(e.target).attr('id') == 'error-window') || (($(e.target).attr('id') == 'question-window')) && !($(e.target).css('display') == 'none') )  {
+            errWinSetStyle(e.target);
+        }
+    }, false);
+}
+
+$(function(){
+		 $('.steps').each(function(){
+		 var id = $(this).attr('id');
+		 if (id!='select-profile-btn' && id!='select-back-btn') {
+		 $(this).addClass(id+'-unactive');
+		 }
+		 });
+		 /* обновление времени*/
+    updateTime();
+    if (reception_doctor.isInfomate){
+        $('body').css('overflow', 'hidden');
+
+        
+            Timeout.initialize(300);
+        
+    }
+
+//  миск:  убрать вызов
+    getLPUCallback(function(){
+        
+        if (reception_doctor.lpu.code){
+            Timeout.initialize(300);
+        }
+        
+    });
+    
+		 /*kir add 16.09.2010 центровка элементов окна при изменении размеров экрана*/
+		 $(window).bind('resize', function () { 
+    render_master_layout();
+    hide_keyboard();
+		 });
+		 
+    selectInfo('#help_button', 'help', 'main_help');
+
+    errWinSetEventOnShow();
+
+})
+
+</script>

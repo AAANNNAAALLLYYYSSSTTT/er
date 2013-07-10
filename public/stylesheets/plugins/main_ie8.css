@@ -1,0 +1,19 @@
+.modal-overlay {
+    filter: alpha(opacity = 0);
+}
+
+.scroll-info {
+    margin-top: 5px;
+}
+
+#personal-input-wrap .div-num .input-num {
+    padding-top: 6px;
+}
+
+#master-searchbar-input {
+    margin-top: 15px;
+}
+
+#calendar-body td {
+    height: 45px;
+}

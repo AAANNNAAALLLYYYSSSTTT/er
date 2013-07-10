@@ -1,0 +1,22 @@
+<ul>
+  <!--li class='doctor-li' id='doctor-li-any'> 
+      <div class='doctor-div'>
+	<span class='doctor-span'>
+	  ЗАПИСЬ К ЛЮБОМУ ВРАЧУ
+	</span> 
+      </div>
+      </li-->
+  <% @doctors.each do |doctor| %>
+  <li class='doctor-li'> 
+    <div class='doctor-div'>
+      <div class='doctor-span' id='<%= doctor.id %>'>
+	<%= doctor.surname %> <%= doctor.name %>
+      </div>
+      <button class='doctor-info' type="button" align='right'>Инфо.</button>
+      <div class='doctor-description'>
+	<%= doctor.post.name %>
+      </div>
+    </div>
+  </li>
+  <% end %>
+</ul>

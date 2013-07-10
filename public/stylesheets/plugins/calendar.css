@@ -1,0 +1,82 @@
+#calendar {
+    float: left;
+    width: 63%;
+    height: 100%;
+}
+
+#calendar-title tr {
+    
+}
+
+#calendar-title td, #calendar-title tr {
+    width: 150px;
+    text-align: center;
+    color: #26762D;
+    font-weight: bold;
+    font-size: 15pt;
+    width: 100px;
+    display:table-cell;
+}
+
+#calendar-title tr td#month {
+    width: 250px;
+}
+
+#calendar-title #back-month, #calendar-title #next-month {
+    cursor:pointer;
+}
+
+#calendar-body table {
+    margin: 10px;
+    font-size: 20px;
+}
+
+#calendar-body tr {
+    margin-top: 5px;
+}
+
+
+#calendar-body td, #calendar-body th {
+    width: 59px;
+    height: 49px;
+    text-align: center;
+    vertical-align: middle;
+    background: url('/images/calendar/date_0.png') no-repeat center center; 
+    font-size: 14pt;
+    font-weight: bold;
+    color: white;
+    position: relative; 
+}
+
+#calendar-body th {
+    background: url('/images/calendar/1x1.png') no-repeat center center; 
+    color: #26762D;
+    height: 40px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#calendar-body td {
+    cursor:default;
+}
+
+#calendar-body td.today {
+    background: url('/images/calendar/date_orange.png') no-repeat center center;
+}
+
+#calendar-body td.none-day {
+    background-image: none;
+}
+
+#calendar-body td.free-day {
+    background-image: url('/images/calendar/date_1.png'); 
+    cursor:pointer;
+}
+
+#calendar-body td.busy-day {
+    background-image: url('/images/calendar/date_choice.png');
+}
+
+#calendar-body td.other-day {
+    background-image: url('/images/calendar/date_0.png');
+}

@@ -1,0 +1,222 @@
+#hide-keyboard-num-button, #hide-keyboard-button {
+	background: url('/images/keyboard/close_key.png') no-repeat;
+	position: absolute;
+	cursor: pointer;
+	right: 20px;
+	top: 20px;
+	z-index: 11;
+	width: 25px;
+	height: 25px;
+	overflow: visible;
+}
+
+#keyboard-container {
+	position: fixed;
+	background: url('/images/keyboard/back_keyboard.png') no-repeat;
+	height: 0px;
+	overflow: hidden;
+	z-index: 105;
+	font-size: 17px;
+	color: white;
+	font-weight: bold;
+	width: 780px;
+}
+
+#keyboard {
+	margin: 0;
+	padding: 45px 25px 0px 25px;
+	list-style: none;
+	/* добавлено для ie 7*/
+	display: inline-block;
+}
+
+#keyboard li {
+	float: left;
+	margin: 0 2px 5px 0;
+	width: 64px;
+	height: 66px;
+	line-height: 60px;
+	text-align: center;
+	background: url('/images/keyboard/one_blue.png') no-repeat;
+	font-size: 18pt;
+	cursor: pointer;
+}
+
+.capslock, .tab,.left-shift, .first-item {
+	clear: left;
+}
+
+.first-letter {
+	margin-left: 0;
+}
+
+#keyboard .left-shift {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard .left-shift:active {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+	top: 2px;
+	left: 2px;
+}
+
+#keyboard .delete {
+	float: left;
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard .delete:active {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard .return {
+	background: url('/images/keyboard/duble_green.png') no-repeat;
+	float: right;
+	width: 131px;
+}
+
+#keyboard .return:active {
+	background: url('/images/keyboard/duble_green.png') no-repeat;
+}
+
+#keyboard .rus-eng, #keyboard .swich-keyboard {
+	background: url('/images/keyboard/duble_green.png') no-repeat;
+	width: 131px;
+}
+
+#keyboard .input-for-email, #keyboard .dot {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+	display: none;
+	width: 66px;
+}
+
+#keyboard .input-for-email:active, #keyboard .dot:active {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard .rus-eng:active, #keyboard .swich-keyboard:active {
+	background: url('/images/keyboard/duble_green.png') no-repeat;
+}
+
+.lastitem {
+	margin-right: 0;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+#keyboard .space {
+	background: url('/images/keyboard/space.png') no-repeat;
+	width: 325px;
+}
+
+#keyboard .space:active {
+	background: url('/images/keyboard/space.png') no-repeat;
+}
+
+.on {
+	display: none;
+}
+
+.en {
+	display: none;
+}
+
+.smb {
+	display: none;
+}
+
+.input-for-email {
+	display: none;
+}
+
+.standart-bot {
+	background: url('/images/keyboard/one_blue.png') no-repeat;
+}
+
+#keyboard li:active {
+	position: relative;
+	top: 2px;
+	background: url('/images/keyboard/one_blue.png') no-repeat;
+	cursor: pointer;
+}
+
+#hide-keyboard-container:hover {
+	position: relative;
+	top: 2px;
+	left: 2px;
+	border-color: #e5e5e5;
+	cursor: pointer;
+}
+
+#keyboard-num-container {
+	position: absolute;
+	background: url('/images/keyboard/sk_background.png') no-repeat;
+	right: 50px;
+	bottom: 10px;
+	height: 0px;
+	width: 300px;
+	overflow: hidden;
+	z-index: 105;
+	font-size: 18pt;
+	color: white;
+	font-weight: bold;
+}
+
+#keyboard-num {
+	margin: 0;
+	padding: 10px 20px 0px 20px;
+	list-style: none;
+}
+
+#keyboard-num li {
+	float: left;
+	margin: 0 2px 2px 2px;
+	width: 63px;
+	height: 61px;
+	line-height: 60px;
+	text-align: center;
+	background: url('/images/keyboard/one_blue.png') no-repeat;
+	cursor: pointer;
+}
+
+#keyboard-num li:active {
+	position: relative;
+	top: 2px;
+	background: url('/images/keyboard/one_blue.png') no-repeat;
+	cursor: pointer;
+}
+
+#hide-keyboard-num-container:hover {
+	position: relative;
+	top: 2px;
+	left: 2px;
+	border-color: #e5e5e5;
+	cursor: pointer;
+}
+
+#keyboard-num .delete {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard-num .delete:active {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard-num .clear {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard-num .clear:active {
+	background: url('/images/keyboard/one_green.png') no-repeat;
+}
+
+#keyboard-num .return {
+	width: 200px;
+	background: url('/images/keyboard/key_enter.png') no-repeat;
+}
+
+#keyboard-num .return:active {
+	background: url('/images/keyboard/key_enter.png') no-repeat;
+}

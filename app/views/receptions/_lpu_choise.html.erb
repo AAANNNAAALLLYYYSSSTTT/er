@@ -1,0 +1,114 @@
+<div id="scroll-wrap">
+  <div id='scroll-wrap2'>
+    <div class="scroll-panel">
+      <div id='lpu-choise'>
+	<script type="text/javascript">
+$(function(){
+  Timeout.refresh();
+// Вешает обработчик на нажатие по изобржению info
+selectInfo('.lpu-info', 'lpu');
+
+// По умолчанию на этом этапе
+        
+    reception_doctor.clearLpu();
+        
+
+//// Вешает обработчик на клик по элементу с классом '.lpu-span'
+//selectStep('.lpu-span', {
+//command: 'next'
+//,type: 'lpu'
+//,profile_id: reception_doctor.profile
+//} 
+//,'lpu_id'
+//,reception_doctor
+//,'lpu');
+//
+
+        $('.lpu-div').click(function(){
+var elem = $(this).children('.lpu-span');
+var idElement =  elem.attr('id');
+var name = elem.html().trim();
+var address = elem.nextAll(".lpu-description").html().trim()
+
+selectStep({
+type: 'lpu',//'lpu',
+lpu_id: idElement,
+profile_id: reception_doctor.profile.id,
+account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free
+}, function(){
+reception_doctor.lpu.id = idElement;
+reception_doctor.lpu.name = name;
+reception_doctor.lpu.address = address;
+});
+});
+
+
+
+/* Название МО в заголовке(Обнуляем)*/
+$('#place-name').html('');
+/* Помощь */
+selectInfo('#help_button', 'help', 'lpu_help');
+})
+</script>
+	<%= render( partial: 'receptions/lpu') %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    Timeout.refresh();
+var step_title = $('#step-title');
+step_title.removeClass();
+step_title.addClass('lpu-step-title');
+
+setStep('#step-lpu');
+
+getEditSearch().show()
+getFreeTimesElem().hide();
+
+    reception_doctor.lpuType = 'lpu';
+setEvents('#master-searchbar-input');
+
+
+var params = {command: 'back'
+,type: 'lpu'
+                        ,lpu_way: reception_doctor.lpuWay
+,profile_id: reception_doctor.profile.id
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free}
+
+// Устанвливает шаг и добавляет обработчик к нажатию на предыдущий шаг
+setActiveStep('#select-lpu-btn', function(){
+bindStep(params) 
+});
+bindGoSearch({ type: 'lpu'
+                       ,lpu_id: reception_doctor.lpu.id||''
+                       ,lpu_way: reception_doctor.lpuWay
+   ,profile_id: reception_doctor.profile.id
+                       ,is_free: reception_doctor.is_free
+   ,account_card_id: reception_doctor.accauntCardId || ''}
+,$('#lpu-choise'));
+//Вешает обработчик на кнопку "Назад"
+selectBack(params);
+
+
+
+// Вешаем на ввод поиска подсказку
+InputHelperCreate ( $( '#master-searchbar-input' ).get( 0 ), 'Поиск по наименованию');
+
+$('.scroll-panel').jScrollPane();
+/* Если приходит сообщение об ошибке*/
+
+    if(''){
+       $('.message-window-text').html('');
+       $('#error-window').show();
+        /* Обработчик на клик по окно сообщения */
+      $('#error-window').click( function (){
+            $('#select-back-btn').click();
+});
+    }
+    if ('2' < 8) $('#lpu-choise').css('margin-left','22px');
+});
+</script>

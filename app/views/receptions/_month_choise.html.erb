@@ -1,0 +1,38 @@
+<% @month_days.each do |week_days| %>
+<tr>
+  <% week_days.each do |day| %>
+  <% if @status_days[day] %>
+  <td class='free-day' id='free-day'>
+    <%= day %>
+  </td>
+  <% elsif @status_days[day] == false %>
+  <td class='busy-day' id='busy-day'>
+    <%= day %>
+  </td>
+  <% elsif day == 0 %>
+  <td class='none-day'>
+  </td>
+  <% else %>
+  <td>
+  </td>
+  <% end %>
+  <% end %>
+</tr>
+<% end %>			
+<script "text/javascript">
+$(function(){
+  Timeout.refresh();
+	var select_day = $('#calendar-body tr td#free-day');
+	select_day.unbind('click');
+	select_day.bind('click', function(){
+		selectDay({
+			 lpu_id: reception_doctor.lpu.id
+			,profile_id: reception_doctor.profile.id
+			,doctor_id: reception_doctor.doctor.id
+		},
+		$(this));
+	});
+	/* Выбирает текущий день */
+	$('#calendar-body tr td#free-day.today').click();
+})
+</script>

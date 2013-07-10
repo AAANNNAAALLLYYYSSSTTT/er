@@ -1,0 +1,75 @@
+body {
+    height: 660px;
+    width: 994px;
+} 
+
+#master-content-wrap {
+    background: url('../images/ipad/backmenu.png') no-repeat center top;
+    height: 510px;
+}
+
+#personal-input-wrap .div-num {
+    width: 310px;
+}
+
+#time-descr {
+    margin-bottom: 5px;
+}
+
+/* calendar css */
+#calendar-title tr {
+	display:table-cell;
+}
+
+#calendar-body th {
+	height: 25px;
+}
+#calendar-body td {
+	height: 45px;
+}
+
+/* end calendar css */
+#scroll-time {
+    height: 270px;
+}
+
+#personal-input-wrap .div-num .input-num {
+    margin: 5px 0 0 10px;
+    width: 210px;
+}
+
+.keyboard-btn-personal {
+    margin: 5px 15px 0 0;
+}
+
+#personal-wrap-table {
+    margin-top: 0px;
+}
+
+#question-div {
+    display:none;
+}
+
+#register-to-reception {
+    margin-top: 0px;
+}
+
+#shedule {
+    height: 86%;
+}
+
+#cabinet{
+	height:90%;
+}
+
+#master-searchbar-input {
+    width: 80%;
+}
+
+.modal-overlay {
+    opacity: 0;
+}
+
+#btn-go-main-page {
+    margin-top: 20px;
+}

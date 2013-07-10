@@ -1,0 +1,252 @@
+<div id='backgrund-mask'> </div>
+<div id='auth-title'><button type="button" id='close-auth-btn'></button></div>
+
+<div id='input-data'>
+  <div id='input-title'>
+    Введите Ваши личные данные
+  </div>
+  <div id='personal-input-wrap'>
+    <table id='table-input-auth'  >
+      <tr>
+	<td>
+	  <div class='input-title'>
+            Фамилия
+            <SUP class='personal-input-head-text-spec-simbol'>*</SUP>
+	  </div>
+	  <div class='div-num'>
+	    <input type="text" id='num-dul-input' class='input-num' value="">
+	    <!--<button id='keyboard-num-dul' class='keyboard-btn-personal' type="button"></button>-->
+	  </div>
+	</td>
+	<td>
+	  <div class='input-title'>
+            Номер полиса ОМС
+	  </div>
+	  <div class='div-num'>
+	    <input type="text" id='num-med-policy' class='input-num' value="">
+	    <!--<button id='keyboard-num-policy' class='keyboard-btn-personal' type="button"></button>-->
+	  </div>
+	</td>
+      </tr>
+      <tr >
+	<td>
+	  <div class='input-title'>
+	    Имя
+	  </div>
+	  <div class='div-num'>
+	    <input type="text" id='telephone' class='input-num' value="">
+	    <!--<button id='keyboard-num-telephone' class='keyboard-btn-personal' type="button"></button>-->
+	  </div>
+	</td>
+	<td>
+	  <div class='input-title'>
+	    Отчество
+	  </div>
+	  <div class='div-num'>
+	    <input type="text" id='email' class='input-num' value="">
+	    <!--<button id='keyboard-btn-email' class='keyboard-btn-personal' type="button"></button>-->
+	  </div>
+	</td>
+      </tr>
+      <tr class="captcha_block">
+	<td>
+	  <div class='input-title'>
+            Введите символы с изображения
+          </div>
+	</td>
+	<td>
+	  <div class='div-num'>
+            <img src="" id="captcha_image" alt="" />
+	    <input type="text" id='captcha' class='input-num' value="">
+            <!--<button id='keyboard-btn-captcha' class='keyboard-btn-personal' type="button"></button>-->
+	  </div>
+	</td>
+      </tr>
+    </table>
+    <div id='personal-input-text'>
+      <SUP class='personal-input-head-text-spec-simbol'>*</SUP>
+      Обязательное поле для заполнения. <span style="font-size: 11px"><strong></strong></span>
+      <br><span id='spec-simbol-help-msg'>Для бесплатного приема введите номер полиса ОМС.</span>
+    </div>
+  </div>
+  <div id='buttons'>
+    <div id='error-message' align='center'></div>
+    <div id='div-register'>
+      <!--button type="button" id='register-to-reception'></button-->
+      <div style="visibility:visible">
+        <button type="button" id='auth-avtoriz' class='auth-reg-btn'></button>
+      </div>
+      <div style="visibility:visible">
+        <button type="button" id='auth-free' class='auth-reg-btn'></button>
+      </div>
+      <div style="visibility:hidden">
+        <button type="button" id='auth-pay' class='auth-reg-btn'></button>
+      </div>
+      </div>
+    <div id='div-anon'>
+      <button type="button" id='auth-go-main-page' class='auth-anon-btn'></button>
+      <button type="button" id='auth-continue-without' class='auth-anon-btn'></button>
+      <button type="button" id='auth-go-profile-chois-page' class='auth-anon-btn'></button>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+
+    Timeout.refresh();
+
+    /* Помощь */
+    help_type = 'auth_help';
+    if (reception_doctor.doctor.id != null){
+        help_type = 'auth_help_reception_last_step';
+    }
+    selectInfo('#help_button', 'help', help_type);
+    
+InputHelperCreate( $('#num-dul-input').get(0), "Поле ввода фамилии", 16, 10 );
+InputHelperCreate( $('#num-med-policy').get(0), "Поле ввода номера полиса ОМС", 16, 10);
+InputHelperCreate( $('#telephone').get(0), "Поле ввода имени", 16, 10);
+InputHelperCreate( $('#email').get(0), "Поле ввода отчества", 16, 10);
+
+setEvents('#email', 180, '#keyboard-btn-email');
+    setEvents('#captcha', 180, '#keyboard-btn-captcha', 0, false, 573);
+setEventsNum('#num-dul-input','#keyboard-num-dul', 180);
+
+    
+        setEventsNum('#num-med-policy','#keyboard-num-policy', 180);
+    
+
+setEventsNum('#telephone','#keyboard-num-telephone', 180);
+
+reception_doctor.defaultValues["num_dul_input"] = "Поле ввода фамилии";
+reception_doctor.defaultValues["num_med_policy"] = "Поле ввода номера полиса ОМС";
+reception_doctor.defaultValues["telephone"] = "Поле ввода имени";
+reception_doctor.defaultValues["email"] = "Поле ввода отчества";
+
+    
+    function setActive(obj) {
+        type = obj.split("-")[1];
+        path_to_url = "url(/images/next_" + type + "_blue.png) no-repeat";
+        $(obj).css("background",path_to_url).attr("disabled",false);
+    }
+      
+    function setInactive(obj) {
+        type = obj.split("-")[1];
+        path_to_url = "url(/images/next_" + type + "_gray.png) no-repeat";
+        $(obj).css("background",path_to_url).attr("disabled",true);
+    }
+    setInactive("#auth-free");
+    setInactive("#auth-pay");
+    setInactive("#auth-avtoriz");
+
+    var default_policy = "Поле ввода номера полиса ОМС";
+    var default_dul    = "Поле ввода фамилии";
+    var default_phone  = "Поле ввода имени";
+    var default_mail   = "Поле ввода отчества";
+
+    $("#num-med-policy, #num-dul-input, #telephone, #email, #captcha").bind("keyup", checkValues);
+    $("#keyboard-container, #keyboard-num-container").bind("click",checkValues);
+//    $(".delete").bind("click",checkValues);   // для чего это?
+//    $("#telephone").bind("focus", add_telephone_mask);
+//    $("#telephone").bind("keypress", add_telephone_mask);
+//    $("#telephone").bind("blur", reset_telephone_mask);
+//    $("#keyboard-num-telephone").bind("click", nyak);
+
+
+    function nyak(){
+        var inputField = $("#telephone");
+        var value = inputField.val();
+//        console.log(value);
+        inputField.inputmask('remove');
+//        console.log(value);
+        inputField.val('');
+    }
+    function add_telephone_mask(event){
+        var keyboard = $("#keyboard-num-container");
+        if (keyboard.css('overflow') == 'hidden'){
+            if ($("#telephone").val() == "Поле ввода номера телефона" || !$("#telephone").val()) {
+                $("#telephone")
+                        .css ({ color: '#000', fontStyle: 'normal' })
+                        .val ('')
+                        .css('font-size', 16 + 'pt');
+                }
+
+                $("#telephone").inputmask("8-(999)-999-99-99", {
+                    clearMaskOnLostFocus: false,
+                    placeholder:" ",
+                    autoUnmask: false,
+                    greedy: true
+                });
+        }
+    }
+
+    function reset_telephone_mask(){
+        var phone = $("#telephone").val(),
+            keyboard = $("#keyboard-num-container");
+        if (keyboard.css('overflow') == 'hidden'){
+            if (phone.length < 4){
+                $("#telephone")
+                    .css({ color: '#b3b3b3', fontStyle: 'italic'})
+                    .css('font-size', 10 + 'pt')
+                    .val("Поле ввода номера телефона");
+                $("#telephone").inputmask('Поле ввода номера телефона', {
+                            clearMaskOnLostFocus: false,
+                            placeholder:" ",
+                            autoUnmask: false,
+                            greedy: true
+                        });
+            }
+        }
+    }
+
+    function checkInput(str, default_value){
+        if (str.length) {
+            if (str != default_value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function checkValues() {
+        policy = $("#num-med-policy").val();
+        dul = $("#num-dul-input").val();
+        phone = $("#telephone").val();
+        mail = $("#email").val();
+        if (checkInput(dul, default_dul)) {
+            // Есть номер паспорта
+            // Проверяем заданы ли другие инпуты
+            // Сначала проверяем номер полиса
+            if (checkInput(policy, default_policy)) {
+                // Если задан, то все кнопочки делаем активными
+                setActive("#auth-free");
+                setActive("#auth-pay");
+                setActive("#auth-avtoriz");
+            }
+            else {
+                // Если не задан, то делаем неактивной кнопку бесплатного приема
+                setInactive("#auth-free");
+            }
+            // Теперь проверяем телефон и мэйл
+            if (checkInput(phone, default_phone) || checkInput(mail, default_mail)) {
+                // Если хотя бы один из них задан, то включаем кнопку платного приема и авторизации для личного кабинета
+                setActive("#auth-pay");
+                setActive("#auth-avtoriz");
+            }
+            else {
+                // Если ни один из них не задан, проверяем поле ввода номера полиса
+                if (!(checkInput(policy, default_policy))) {
+                    // Если номер полиса не задан, то выключаем кнопку платного приема и авторизации для личного кабинета
+                    setInactive("#auth-pay");
+                    setInactive("#auth-avtoriz");
+                }
+            }
+        }
+        else {
+            setInactive("#auth-free");
+            setInactive("#auth-pay");
+            setInactive("#auth-avtoriz");
+        }
+    }
+    // js - вставка для сканера штрих-кодов
+});
+</script>

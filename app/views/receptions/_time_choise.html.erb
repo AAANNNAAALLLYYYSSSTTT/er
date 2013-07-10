@@ -1,0 +1,48 @@
+<div class="scroll-panel">
+  <div id='time-to-work' align='left'>
+    <ul>
+      <li>
+	<button class='free-time' type="button" id_service_point='9'> Живая очередь </button>
+      </li>
+    </ul>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    Timeout.refresh();
+	$('.scroll-panel').jScrollPane();
+	
+	
+		struct_for_reception = reception_doctor;
+	
+	
+	$('#time-to-work ul li button.free-time').unbind('click');
+	$('#time-to-work ul li button.free-time').bind('click', function(){
+		var num_day = $('.today').html().trim();
+		var day = new Date( current_date.year, current_date.month-1, num_day );
+		var time = $(this).html().trim();
+		var shedule_id = $(this).attr('id_service_point');
+		
+		//selectSheduleTime(struct_for_reception, day, time, shedule_id);
+		if (reception_doctor.accauntCardId) {
+			 selectSheduleTime(struct_for_reception, day, time, shedule_id);
+		} else {
+			showAuthWindow(
+				function(){
+					selectStep({
+							type: 'profile' 
+							,profile_id: reception_doctor.profile.id
+							,account_card_id: reception_doctor.accauntCardId || ''
+							,is_free: reception_doctor.is_free
+						}, function(){
+//							reception_doctor.profile.id = idElement;
+//							reception_doctor.profile.name = name;
+						
+					});
+			},
+			2); // 2 - \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f \u0432\u044b\u0437\u044b\u0432\u0430\u0435\u0442\u0441\u044f	
+		}
+		
+	});
+});
+</script>

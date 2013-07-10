@@ -1,0 +1,43 @@
+<script type="text/javascript">
+$(function(){
+  Timeout.refresh();
+    
+// По умолчанию на этом этапе
+reception_doctor.clearDoctor();
+
+    $('.doctor-div').click(function(){
+    var elem = $(this).children('.doctor-span');
+var idElement =  elem.attr('id');
+var name = elem.html().trim();
+
+var job = ''
+var job_elem = elem.nextAll(".doctor-description").html()
+if (job_elem) {
+job = job_elem.trim()
+}
+
+selectStep({type: 'doctor',
+ doctor_id: idElement,
+ profile_id: reception_doctor.profile.id,
+ lpu_id: reception_doctor.lpu.id
+ ,is_free: reception_doctor.is_free
+ }, 
+function(){
+reception_doctor.doctor.id = idElement;
+reception_doctor.doctor.name = name;
+reception_doctor.doctor.job = job;
+});
+});
+
+/* Название МО в заголовке*/
+$('#place-name').html(reception_doctor.lpu.name);
+
+
+$('.scroll-pane').jScrollPane();
+})
+
+/* Помощь */
+selectInfo('#help_button', 'help', 'doctor_help');
+
+</script>
+<%= render( partial: 'receptions/doctors') %>

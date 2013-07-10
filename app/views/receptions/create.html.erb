@@ -1,3 +1,31 @@
+<script type="text/javascript">
+
+  $(function(){
+  $('#master-nav-wrapper').css('overflow', 'visible');
+  Timeout.refresh();
+  renderKeyboard();
+  setupKeyboard();
+  //FIXME: Придумать более правильный способ
+  var height_cont = 630;
+  $('#master-cnt-wrapper').height(height_cont);
+  $('#master-nav-wrapper').height(height_cont);
+  $('#master-footer-wrapper').height(0);
+  
+  $('#master-header').removeClass('master-header-default');
+  $('#master-header').addClass('master-header-doctor');
+  
+  $(window).unbind('resize');
+  $('#master-nav').css('top', '0px');
+  $('#master-content').css('top', '0px');
+  $('#master-content').height('100%');
+    reception_doctor.ticket_ps = 'Настройте подпись к талону в mis.conf';
+    $('#master-cnt-wrapper').click( function (){
+       $('#error-window').hide();
+    });
+    $("#logo_div").css("cursor","pointer").attr("title","Переход на главную").bind('click', function() {$(window.location).attr('href','/receptions');});
+    $("#go-home-btn").bind('click', function() {$(window.location).attr('href','/receptions');});
+});
+</script>
 </head>
 <body>
   <!-- Виртуальная клавиатура -->
@@ -122,11 +150,85 @@
       </div>
     </div>
   </div>
-  <div id='master-cnt-wrapper'>
-    <div class='main_div_buttons' align='center'>
-      <button class='main_buttons' id='to_doctor' type="button" onclick='location.href=" receptions-to-doctor"'>
-      </button>
-      <button class='main_buttons' id='get_check' type="button" onclick='location.href=" external_records"'>
-      </button>
+<script type="text/javascript">
+  // По умолчанию на этом этапе 
+    reception_doctor.clearProfile();
+
+  showAuthWindow(function(){
+  $.ajax({
+        url: document.location.href
+        ,type: "POST"
+        ,dataType : 'html'
+        ,data: ({
+            type: 'profile'
+            ,lpu_way: reception_doctor.lpuWay
+  ,account_card_id: reception_doctor.accauntCardId||''
+  ,is_free: reception_doctor.is_free
+        })
+        ,success: function (data, textStatus) {
+            if (data) {
+                // master-content - место для изменяемых данных, определено в шаблоне er-reception-to-doctor.html
+                var content = $('#master-content')
+                content.html(data);
+            }
+        }
+    });
+  },1);
+
+</script>
+<div id='mask-wrapper'></div>
+<div id='master-cnt-wrapper'>
+  <div id='lpu-name' style="text-align: center; font-size: 14pt; font-family: Geneva,Tahoma,Helvetica; color: #4F534F; display: none"><span id='lpu-name-span'></span></div>
+  <table class="table" id="table-schedule-header" cellspacing="0" cellpadding="0" style="display: none;">
+    <tr>
+      <td class='cell_room' rowspan="2">Каб.</td>
+      <td class='cell_name5' rowspan="2">Врач ФИО</td>
+      <td class='cell_day5' colspan="5">
+        <button id="week_back" onclick="weekChoiceNewSchema('prev-week')"></button><div id='week_dates'></div><button id="week_next" onclick="weekChoiceNewSchema('next-week')"></button>
+      </td>
+    </tr>
+    <tr class='rowb'>
+      <td class='cell_day5'>Пн.</td>
+      <td class='cell_day5'>Вт.</td>
+      <td class='cell_day5'>Ср.</td>
+      <td class='cell_day5'>Чт.</td>
+      <td class='cell_day5'>Пт.</td>
+    </tr>
+  </table>
+  <div id='master-submenu'> 
+    <div id='master-submenu-wrap'>
+      <div id='step-title'></div>
+      <div id='visit-type'></div>
+      <div id='steps'> 
+        <ul>
+          <li id='step-profile' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li id='step-lpu' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li id='step-doctor' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li id='step-time' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li id='step-confirm' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li id='step-info' class='steps-class step-inactive'>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+        </ul>
+      </div> 
     </div>
   </div>
+  <div id='master-content-wrap'> 
+    <div id='master-content-wrap-2'> 
+      <div id='master-content'> </div>
+    </div>
+    <div id='footer-content-wrap'>
+      <button class='steps' id='select-back-btn' type="button"></button>
+      <button class='steps' id='go-home-btn' type="button"></button>
+      <!--<button class='steps' id='to-pay-choice' type="button"></button>-->
+      <div id='master-searchbar'>
+        <div id='master-search-bar-panel'>
+          <div id='master-searchbar-input-wrap'>
+            <input id='master-searchbar-input' value="">
+            <button id='keyboard-btn' class='keyboard-btn' type="button"></button>
+            <button id='search-btn' class='search-btn' type="button"></button>
+          </div>
+        </div>
+      </div>
+      <button id='select-free-times' type="button" onclick='onFreeTimes()'><div id='select_free_time'></div></button>
+    </div>  
+  </div>
+</div>

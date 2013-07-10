@@ -1,0 +1,32 @@
+<script type="text/javascript">
+$(function() {
+  Timeout.refresh();
+// Вешает обработчик на нажатие по изобржению info
+selectInfo('.profile-info2', 'profile');
+// Вешает обработчик на клик по элементу с классом ()
+function click_profile(element){
+$(element).click(function(){ 
+var scope = this;
+var idElement =  $(scope).attr('id');
+var name = $(scope).html().trim();
+selectStep({
+type: 'profile'
+,profile_id: idElement
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free
+}, function(){
+reception_doctor.profile.id = idElement;
+reception_doctor.profile.name = name;
+});
+});
+}
+click_profile('.profile-span2');
+/* Помощь */
+selectInfo('#help_button', 'help', 'profile_help');
+})
+</script>
+<!-- 
+     размер шрифта size определяется в зависимости от количества символов в 
+     наименовании, но не должен быть меньше 14pt.
+  -->
+<%= render( partial: 'receptions/posts') %>

@@ -1,0 +1,60 @@
+#date-time {
+    width: 250px;
+}
+
+.modal-overlay {
+    filter: alpha(opacity = 0);
+}
+
+#personal-input-wrap .div-num .input-num {
+    padding-top: 6px;
+}
+
+#master-searchbar-input {
+    margin-top: 15px;
+}
+
+#steps {
+    margin-top: 35px;
+}
+
+#scroll-time {
+    margin-top: 5px;
+}
+
+.scroll-info {
+    margin-top: 5px;
+}
+#calendar-title tr {
+    background: url('/images/scroll/scroll_field_horizontal.png') no-repeat top;
+}
+
+#table-schedule-header {
+    position: relative;
+    border-bottom-style:none;
+    border-top-style:none
+}
+
+.profile-li2 {
+    float: left;
+    position:relative;
+}
+
+.profile-div2 {
+    position:absolute;
+    top:50%; 
+    height:auto;
+    max-height: 100%;
+}
+
+.profile-span2 {
+    position:relative;
+    top:-25%;
+    width: 95%;
+    overflow:hidden;
+    height:90%;
+}
+
+#calendar-body td {
+    height: 45px;
+}

@@ -1,0 +1,51 @@
+<script type="text/javascript">
+$(function(){
+  Timeout.refresh();
+// Вешает обработчик на нажатие по изобржению info
+selectInfo('.lpu-info', 'lpu');
+
+// По умолчанию на этом этапе
+        
+    reception_doctor.clearLpu();
+        
+
+//// Вешает обработчик на клик по элементу с классом '.lpu-span'
+//selectStep('.lpu-span', {
+//command: 'next'
+//,type: 'lpu'
+//,profile_id: reception_doctor.profile
+//} 
+//,'lpu_id'
+//,reception_doctor
+//,'lpu');
+//
+
+        $('.lpu-div').click(function(){
+var elem = $(this).children('.lpu-span');
+var idElement =  elem.attr('id');
+var name = elem.html().trim();
+var address = elem.nextAll(".lpu-description").html().trim()
+
+selectStep({
+type: 'lpu',//'lpu',
+lpu_id: idElement,
+profile_id: reception_doctor.profile.id,
+account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free
+}, function(){
+reception_doctor.lpu.id = idElement;
+reception_doctor.lpu.name = name;
+reception_doctor.lpu.address = address;
+});
+});
+
+
+
+/* Название МО в заголовке(Обнуляем)*/
+$('#place-name').html('');
+/* Помощь */
+selectInfo('#help_button', 'help', 'lpu_help');
+})
+</script>
+
+<%= render( partial: 'receptions/lpu') %>

@@ -1,0 +1,108 @@
+<div id="scroll-wrap">
+  <div id='scroll-wrap2'>
+    <div class="scroll-panel">
+      <div id='doctor-choise'>
+	<script type="text/javascript">
+$(function(){
+  Timeout.refresh();
+    
+// По умолчанию на этом этапе
+reception_doctor.clearDoctor();
+
+    $('.doctor-div').click(function(){
+    var elem = $(this).children('.doctor-span');
+var idElement =  elem.attr('id');
+var name = elem.html().trim();
+
+var job = ''
+var job_elem = elem.nextAll(".doctor-description").html()
+if (job_elem) {
+job = job_elem.trim()
+}
+
+selectStep({type: 'doctor',
+ doctor_id: idElement,
+ profile_id: reception_doctor.profile.id,
+ lpu_id: reception_doctor.lpu.id
+ ,is_free: reception_doctor.is_free
+ }, 
+function(){
+reception_doctor.doctor.id = idElement;
+reception_doctor.doctor.name = name;
+reception_doctor.doctor.job = job;
+});
+});
+
+/* Название МО в заголовке*/
+$('#place-name').html(reception_doctor.lpu.name);
+
+
+$('.scroll-pane').jScrollPane();
+})
+
+/* Помощь */
+selectInfo('#help_button', 'help', 'doctor_help');
+
+</script>
+	<%= render( partial: 'receptions/doctors') %>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){
+    Timeout.refresh();
+var step_title = $('#step-title');
+step_title.removeClass();
+step_title.addClass('doctor-step-title');
+
+setStep('#step-doctor');
+
+getEditSearch().show();
+getFreeTimesElem().hide();
+
+var params = {command: 'back'
+,type: 'doctor'
+,profile_id: reception_doctor.profile.id
+,lpu_id: reception_doctor.lpu.id
+,account_card_id: reception_doctor.accauntCardId || ''
+,is_free: reception_doctor.is_free};
+
+// Устанавливает шаг
+setActiveStep('#select-doctor-btn', function(){
+bindStep(params)
+});
+// прячем лишнюю кнопку, она видна если на это окно вернулись из расписания врача
+$('#to-pay-choice').hide()
+setEvents('#master-searchbar-input');
+
+bindGoSearch({ type: 'doctor'
+   ,profile_id: reception_doctor.profile.id
+   ,lpu_id: reception_doctor.lpu.id
+                   ,is_free: reception_doctor.is_free
+   ,account_card_id: reception_doctor.accauntCardId || ''}
+,$('#doctor-choise'));
+
+// Вешаем на ввод поиска подсказку
+InputHelperCreate ( $( '#master-searchbar-input' ).get( 0 ), 'Поиск по наименованию');
+
+//Вешает обработчик на кнопку "Назад"
+selectBack(params);
+
+// Вешает обработчик на нажатие по изобржению info
+selectInfo('.doctor-info', 'doctor');
+
+$('.scroll-panel').jScrollPane();
+/* Если приходит сообщение об ошибке*/
+    if(''){
+       $('.message-window-text').html('');
+       $('#error-window').show();
+        /* Обработчик на клик по окно сообщения */
+      $('#error-window').click( function (){
+            $('#select-back-btn').click(); 
+});
+    }
+
+    if ('2' < 8) $('#doctor-choise').css('margin-left','22px');
+});
+</script>
