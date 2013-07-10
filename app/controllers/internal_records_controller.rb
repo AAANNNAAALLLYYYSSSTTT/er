@@ -7,8 +7,8 @@ class InternalRecordsController < ApplicationController
     @doctors = Doctor.order(:surname)
   end
 
-  # POST /quotum_doctors
-  # POST /quotum_doctors.json
+  # POST /internal_records
+  # POST /internal_records.json
   def create
     respond_to do |format|
       date = get_selected_date_for_current_user

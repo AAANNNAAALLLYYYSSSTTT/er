@@ -1,9 +1,9 @@
 Er::Application.routes.draw do
 
   controller :receptions do
-    get  'receptions',           to: 'receptions#index'
-    get  'receptions-to-doctor', to: 'receptions#create'
-    post 'receptions-to-doctor', to: 'receptions#create'
+    get  'receptions'           => :index
+    get  'receptions-to-doctor' => :create
+    post 'receptions-to-doctor' => :create
   end
 
   get  'ticket_empty', to: 'ticket#index'
@@ -17,7 +17,11 @@ Er::Application.routes.draw do
     delete 'logout'         => :destroy
   end
 
-  get  'external_records', to: 'external_records#index'
+  controller :external_records do
+    get    'external_records' => :index
+    post   'external_records' => :show
+    delete 'external_records' => :destroy
+  end
 
   get  'internal_records', to: 'internal_records#index'
   post 'internal_records', to: 'internal_records#create'
