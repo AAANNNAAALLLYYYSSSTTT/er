@@ -1,2 +1,285 @@
-<h1>Ticket#show</h1>
-<p>Find me in app/views/ticket/show.html.erb</p>
+<html>
+<head>
+<title>Направление(распечатать)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO8859-1">
+<style type="text/css">
+* {
+font: 0.99em Arial, sans-serif;
+}
+
+body {
+color: #000;
+background: #fff;
+margin: 0;
+padding: 0;
+}
+
+table#price {
+border: 1px dashed #cccccc;
+border-collapse: collapse;
+width: 100%;
+}
+
+#price tr,#price th,#price td {
+border: 1px dashed #cccccc;
+border-collapse: collapse;
+height: 100%;
+padding: 3px;
+}
+
+div {
+display: block;
+padding: 8px;
+margin: 8px;
+}
+
+#foot .request {
+border-width: 1px;
+border-color: red white;
+border-style: dashed;
+padding-bottom: 30px;
+}
+
+div#preparation {
+padding-top: 20px;
+padding-bottom: 40px;
+}
+
+h5 {
+display: block;
+font-size: 0.83em;
+-webkit-margin-before: 1.67em;
+-webkit-margin-after: 1.67em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+font-weight: bold;
+}
+
+html,body {
+height: 100%;
+margin: 0px;
+padding: 0px;
+overflow: auto;
+background-color: white;
+color: black;
+}
+
+b {
+    font-weight: bold;
+}
+
+#full {
+display: block;
+}
+
+#header {
+display: block;
+}
+
+#content {
+margin-left: 15em;
+}
+
+#footer {
+display: block;
+margin-left: 15em;
+margin: 1em 0;
+padding: 0;
+text-align: right;
+border-top: 1px solid #8CACBB;
+}
+
+.hiddenStructure {
+display: block;
+background: transparent;
+background-image: none; /* safari bug */
+border: none;
+height: 1px;
+overflow: hidden;
+padding: 0;
+margin: -1px 0 0 -1px;
+width: 1px;
+background-image: none; /* safari bug */
+border: none;
+height: 1px;
+overflow: hidden;
+padding: 0;
+}
+
+div.address {
+text-align: left;
+margin-bottom: 12px;
+padding: 0 .5em;
+color: #222;
+line-height: 1.692;
+}
+
+.documentContent a {
+margin-top: -0.9em;
+-webkit-margin-before: 1.67em;
+-webkit-margin-after: 1.67em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+}
+
+.documentActions {
+margin: 1em 0;
+padding: 0;
+text-align: right;
+border-top: 1px solid #8cacbb;
+}
+
+.documentActions ul {
+margin: 0;
+padding: 0 0.5em;
+display: block;
+margin-top: -0.9em;
+list-style-type: none;
+list-style-image: none;
+}
+
+.documentActions li {
+display: inline;
+font-size: 90%;
+margin: 0 0.5em;
+padding: 0 0.25em;
+background-color: White;
+}
+
+.documentActions a {
+border: none !important;
+text-decoration: none;
+}
+
+ul {
+line-height: 1.5em;
+}
+
+@media print {
+.documentActions,#footer {
+display: none;
+}
+#content {
+width: auto;
+height: auto;
+margin-left: 0em;
+min-width: 0px;
+}
+}
+</style>
+<head>
+<body>
+  <div id="head">
+    <center>
+      <p>
+	Республиканская клиническая больница им. Г. Г. Куватова (РКБ)<br />
+	450005, Уфа, Достоевского, 132.<br /> Тел +7(347)272-89-74 /
+	+7(347)279-03-95 email: <a href=mailto:HospitalFeedback@gmail.com>HospitalFeedback@gmail.com</a><br />
+	<a href=http://goo.gl/Ndlm4 target="_blank">http://goo.gl/IuygE</a>
+	</p>
+      </center>
+    </div>
+  
+  <div id="full">
+    <div id="header">
+      <div id="content" align="center">
+	<font SIZE="3" FACE="Times New Roman">Маршрутный Лист № <b><%= @record.id %></b>
+	  в ГБУЗ РКБ им. Г.Г. Куватова
+	  </font> <br /> <em><%= @record.surname %> <%= @record.name %> <%= @record.patronymic %> направляется в
+	  ГБУЗ РКБ им. Г.Г. Куватова на прием <%= @record.day %>/<%= @record.month %>/ <%= @record.year %></em>
+	</div>
+      <div id="content" align="center">
+	<font SIZE="3" FACE="Times New Roman"><mark>БЕЗ
+	    ПУТЕВКИ НЕ ДЕЙСТВИТЕЛЬНО</mark> </font>
+	</div>
+      </div>
+    <div class="documentActions">
+      <h5 class="hiddenStructure"></h5>
+      <ul>
+	<li id="document-action-sendto"><a
+					   href="javascript:this.print();" title="">Распечатать</a></li>
+	</ul>
+      </div>
+    <div id="center">
+
+      <div id="info">
+	<table width="100%">
+	  <tr>
+	    <td width="18%">Направившее учреждение</td>
+	    <td width="2%">:</td>
+	    <td width="55%"><%= @record.account.description %></td>
+	    <td width="25%"><%= @record.account.name %></td>
+	    </tr>
+	  <tr>
+	    <td>Пациент</td>
+	    <td>:</td>
+	    <td colspan="2"><%= @record.surname %> <%= @record.name %> <%= @record.patronymic %></td>
+	    </tr>
+	  <tr>
+	    <td colspan="4">
+	      <table id="price">
+		<thead>
+		  <tr>
+		    <th>Специальность</th>
+		    <th>Врач</th>
+		    <th>Дата</th>
+		    <th>Кабинет</th>
+		    </tr>
+		  </thead>
+		<tbody>
+		  <tr>
+		    <td><%= @record.doctor.post.name %></td>
+		    <td><%= @record.doctor.surname %> <%= @record.doctor.name %> <%= @record.doctor.patronymic %></td>
+		    <td><%= @record.day %> <%= @record.month %> <%= @record.year %></td>
+		    <td><%= @record.doctor.cabinet %></td>
+		    </tr>
+		  </tbody>
+		</table>
+	      </td>
+	    </tr>
+	  </table>
+	</div>
+      
+      <div id="preparation">
+	<details>
+	  <summary>ПОДГОТОВКИ</summary>
+	  </details>
+	</div>
+      </div>
+    <div id="foot">
+      <div class="request">
+	Просьба приезжать на прием заблаговременно.
+	<mark>С СОБОЙ ОБЯЗАТЕЛЬНО ИМЕТЬ ПАСПОРТ, ПОЛИС, НАПРАВЛЕНИЕ С
+	  МЕСТА ЖИТЕЛЬСТВА</mark>
+	.<br />Если Вы не можете явиться на прием в назначенное время, Вам
+	необходимо сообщить об этом по адресу электронной почты <a
+								   href=mailto:HospitalFeedback@gmail.com>HospitalFeedback@gmail.com</a>
+	</div>
+      <div class="content">
+	Обращаем Ваше внимание на необходимость предъявления следующих
+	документов:
+	<ul type="square">
+	  <li>Действующий полис ОМС</li>
+	  <li>Паспорт</li>
+	  <li>Путевка с указанием результатов всех предварительно
+	    проведенных обследований, снимки, выпиской из истории болезни и
+	    цели направления в консультативную поликлинику</li>
+	  </ul>
+	</div>
+      <div class="content">В случае необходимости дополнительных
+	обследований на базе консультативной поликлиники, время затраченное
+	на консультацию и ожидание заключительных рекомендаций, может
+	значительно удлититься (1-3 дня).</div>
+      </div>
+
+    <div id="footer">
+      <div class="address">
+	<a href="javascript:this.print();" title="">Распечатать</a> <br />
+	<b><a href="http://rch.webufa.ru" target="_blank">РКБ им.
+	    Г.Г. Куватова</a> </b> <br />Адрес: г. Уфа, Достоевского 132 <br />Телефон:
+	+7(347)273-46-24
+	</div>
+      </div>
+    </div>
+</body>
+</html>
