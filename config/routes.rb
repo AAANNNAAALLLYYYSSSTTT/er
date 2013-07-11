@@ -1,5 +1,12 @@
 Er::Application.routes.draw do
 
+  controller :records do
+    get    'records' => :index
+    post   'records' => :show
+    put    'records' => :update
+    delete 'records' => :destroy
+  end
+
   controller :receptions do
     get  'receptions'           => :index
     get  'receptions-to-doctor' => :create

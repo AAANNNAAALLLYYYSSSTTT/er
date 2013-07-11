@@ -1,0 +1,26 @@
+<table class="patientsRecordsTable" style="width: 100%;">
+  <tbody>
+        <% @records.each do |record| %>
+	<tr class='<%= record.flag.name %>' id='record_<%= record.id %>'>
+	  <td>
+                <div class="label hospital"><%= record.account.description %></div>
+		</td>
+	  <td>
+                <div class="label doctor"><%= record.doctor.surname %> <%= record.doctor.name %></div>
+		</td>
+	  <td>
+                <div class="label patient"><%= record.surname %> <%= record.name %></div>
+		</td>
+	  <td>
+                <div class="label patient-card"><%= record.card %></div>
+		</td>
+            <td>
+              <button name="success" type="button" class="button">Подтвердить</button>
+            </td>
+            <td>
+              <button name="cancel" type="button" class="button">Отменить</button>
+            </td>
+	    </tr>
+        <% end %>
+	</tbody>
+</table>

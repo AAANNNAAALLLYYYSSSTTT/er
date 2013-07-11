@@ -1,3 +1,31 @@
 // Place all the styles related to the Records controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.records {
+  .cellsBlock {
+    width: 100%;
+    display: table;
+
+    .cellLeft, .cellMiddle, .cellRight {
+      display: table-cell !important;
+      display: inline; /* IE */
+      vertical-align: top;
+    }
+
+    .cellLeft {
+      .menu {
+        float: right;
+      }
+    }
+
+    .cellRight {
+      float: right;
+    }
+
+    .cellMiddle {
+      width: 50%;
+      align: center;
+    }
+  }
+}
