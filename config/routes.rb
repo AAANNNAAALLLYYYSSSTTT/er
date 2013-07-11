@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  get 'api/get_records_for_date', defaults: { format: 'xml' }
+
   controller :records do
     get    'records' => :index
     post   'records' => :show

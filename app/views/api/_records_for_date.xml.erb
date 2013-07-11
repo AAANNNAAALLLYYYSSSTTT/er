@@ -1,0 +1,25 @@
+<entities>
+<% @records_doctor.each do |doctor, records| %>
+<doctor>
+<name>
+<%= doctor.name %>
+</name>
+<surname>
+<%= doctor.surname %>
+</surname>
+<patronymic>
+<%= doctor.patronymic %>
+</patronymic>
+<post>
+<%= doctor.post.name %>
+</post>
+<records>
+<% records.each do |record| %>
+<record>
+<%= record.surname %> <%= record.card %>
+</record>
+<% end %>
+</records>
+</doctor>
+<% end %>
+</entities>
