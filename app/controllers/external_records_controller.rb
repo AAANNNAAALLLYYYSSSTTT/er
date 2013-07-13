@@ -13,12 +13,11 @@ class ExternalRecordsController < ApplicationController
     keep_selected_date
     respond_to do |format|
       date = get_selected_date_for_current_user
-      account = Account.find(current_account)
       flag_accepted = Flag.find_by_id(1)
       flag_awaiting = Flag.find_by_id(2)
       flag_rejected = Flag.find_by_id(3)
       format.html {
-        @records = Record.where(account: account, year: date.year, month: date.month, day: date.day)
+        @records = Record.where(account: current_account, year: date.year, month: date.month, day: date.day)
         render partial: 'external_records/edit_external_records_for_selected_date', locals: { accepted: flag_accepted, awaiting: flag_awaiting, rejected: flag_rejected }
       }
     end
@@ -42,9 +41,9 @@ class ExternalRecordsController < ApplicationController
 
   private
     def keep_selected_date
-      $redis.hset(session[:account_id], :year,  params[:year])  if params[:year]
-      $redis.hset(session[:account_id], :month, params[:month]) if params[:month]
-      $redis.hset(session[:account_id], :day,   params[:day])   if params[:day]
+      $redis.hset(session[:account], :year,  params[:year])  if params[:year]
+      $redis.hset(session[:account], :month, params[:month]) if params[:month]
+      $redis.hset(session[:account], :day,   params[:day])   if params[:day]
     end
 
 end

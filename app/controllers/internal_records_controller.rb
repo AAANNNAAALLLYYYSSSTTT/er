@@ -33,12 +33,11 @@ class InternalRecordsController < ApplicationController
       format.json {
         parsed_json_records = ActiveSupport::JSON.decode(params[:records])
         doctor = Doctor.find_by_id(parsed_json_records['doctor'].to_i)
-        account = Account.find(current_account)
         Record.where(year: date.year, month: date.month, day: date.day, doctor: doctor).delete_all
         parsed_json_records['list'].each do |record_hash|
           next if record_hash['write'].empty?
           record = Record.new
-          record.account = account
+          record.account = current_account
           record.surname = 'none'
           record.name = 'none'
           record.card = 'none'
@@ -50,7 +49,7 @@ class InternalRecordsController < ApplicationController
           record.flag = flag_accepted
           record.save
         end
-        render json: {status: "Ok"}
+        render json: { status: "Ok" }
       }
     end
   end

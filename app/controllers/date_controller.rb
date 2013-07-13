@@ -3,11 +3,11 @@ class DateController < ApplicationController
   before_action :check_authorize
 
   def create
-    $redis.hset session[:account_id], :year, params[:year]
-    $redis.hset session[:account_id], :month, params[:month]
-    $redis.hset session[:account_id], :day, params[:day]
+    $redis.hset session[:account], :year, params[:year]
+    $redis.hset session[:account], :month, params[:month]
+    $redis.hset session[:account], :day, params[:day]
 
-    render text: Time.new(params[:year], params[:month], params[:day]).strftime("%F")
+    render text: get_selected_date_for_current_user.strftime("%F")
   end
 
 end

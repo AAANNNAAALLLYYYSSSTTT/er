@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     end
 
     def current_account
-      current_user ||= Account.find_by_id(session[:account_id]) if logged_in?
+      current_user ||= Account.find_by_id($redis.hget(session[:account], :id)) if logged_in?
     end
 
     def is_current_account_roles? roles
@@ -19,9 +19,9 @@ class ApplicationController < ActionController::Base
     end
 
     def get_selected_date_for_current_user
-      year  = $redis.hget session[:account_id], :year
-      month = $redis.hget session[:account_id], :month
-      day   = $redis.hget session[:account_id], :day
+      year  = $redis.hget session[:account], :year
+      month = $redis.hget session[:account], :month
+      day   = $redis.hget session[:account], :day
       Time.new(year, month, day)
     end
 

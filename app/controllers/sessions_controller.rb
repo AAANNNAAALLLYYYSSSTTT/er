@@ -27,14 +27,14 @@ class SessionsController < ApplicationController
         json_body = Base64.decode64(encoded_json_body)
         userinfo = JSON.parse(json_body)
         account = Account.find_by_name(userinfo['email'].downcase)
-        session[:account_id] = account.id
+        session[:account] = session[:state]
         if account
-          $redis.hset session[:account_id], :id, account.id
-          $redis.hset session[:account_id], :name, account.name
-          $redis.hset session[:account_id], :description, account.description
-          $redis.hdel session[:account_id], :time_logout
-          $redis.hset session[:account_id], :time_login, Time.now.to_i
-          $redis.hset session[:account_id], :code, params[:code]
+          $redis.hset session[:account], :id, account.id
+          $redis.hset session[:account], :name, account.name
+          $redis.hset session[:account], :description, account.description
+          $redis.hdel session[:account], :time_logout
+          $redis.hset session[:account], :time_login, Time.now.to_i
+          $redis.hset session[:account], :code, params[:code]
         else
           render_404
         end
@@ -45,9 +45,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    $redis.hset session[:account_id], :time_logout, Time.now.to_i
+    $redis.hset session[:account], :time_logout, Time.now.to_i
     session[:access_token] = nil
-    session[:account_id] = nil
+    session[:account] = nil
   end
 
   def render_404
@@ -67,7 +67,7 @@ class SessionsController < ApplicationController
 
     def get_target_url
       if !session[:state]
-        state = (0...13).map{('a'..'z').to_a[rand(26)]}.join
+        state = (0...33).map{('a'..'z').to_a[rand(26)]}.join
         session[:state] = state
       end
       state = session[:state]

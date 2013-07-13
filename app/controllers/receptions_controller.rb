@@ -152,7 +152,7 @@ class ReceptionsController < ApplicationController
   def render_schedule_of_doctor
     date_now = Time.now
     calendar = Calendar.new
-    @account = Account.find_by_id(session[:account_id])
+    @account = current_account
     @doctor_selected = Doctor.find_by_id(doctor)
     @status_days = quotum_of_doctor
     @month_days = calendar.monthdays_calendar date_now.year, date_now.month
@@ -250,41 +250,41 @@ class ReceptionsController < ApplicationController
   end
 
   private
-    def year()       $redis.hget session[:account_id], :year       end
-    def month()      $redis.hget session[:account_id], :month      end
-    def day()        $redis.hget session[:account_id], :day        end
-    def card()       $redis.hget session[:account_id], :card       end
-    def patronymic() $redis.hget session[:account_id], :patronymic end
-    def surname()    $redis.hget session[:account_id], :surname    end
-    def name()       $redis.hget session[:account_id], :name       end
-    def post()       $redis.hget session[:account_id], :post       end
-    def doctor()     $redis.hget session[:account_id], :doctor     end
+    def year()       $redis.hget session[:account], :year       end
+    def month()      $redis.hget session[:account], :month      end
+    def day()        $redis.hget session[:account], :day        end
+    def card()       $redis.hget session[:account], :card       end
+    def patronymic() $redis.hget session[:account], :patronymic end
+    def surname()    $redis.hget session[:account], :surname    end
+    def name()       $redis.hget session[:account], :name       end
+    def post()       $redis.hget session[:account], :post       end
+    def doctor()     $redis.hget session[:account], :doctor     end
 
     def keep_selected_date
-      $redis.hset(session[:account_id], :year,  params[:year])  if params[:year]
-      $redis.hset(session[:account_id], :month, params[:month]) if params[:month]
-      $redis.hset(session[:account_id], :day,   params[:day])   if params[:day]
+      $redis.hset(session[:account], :year,  params[:year])  if params[:year]
+      $redis.hset(session[:account], :month, params[:month]) if params[:month]
+      $redis.hset(session[:account], :day,   params[:day])   if params[:day]
     end
 
     def keep_selected_post
-      $redis.hset(session[:account_id], :post, params[:profile_id]) if params[:profile_id]
+      $redis.hset(session[:account], :post, params[:profile_id]) if params[:profile_id]
     end
 
     def keep_selected_doctor
-      $redis.hset(session[:account_id], :doctor, params[:doctor_id]) if params[:doctor_id]
+      $redis.hset(session[:account], :doctor, params[:doctor_id]) if params[:doctor_id]
     end
 
     def keep_patient_info params
-      $redis.hset(session[:account_id], :surname,    params[:num_passport])   if params[:num_passport]
-      $redis.hset(session[:account_id], :name,       params[:telephone])      if params[:telephone]
-      $redis.hset(session[:account_id], :patronymic, params[:email])          if params[:email]
-      $redis.hset(session[:account_id], :card,       params[:num_med_policy]) if params[:num_med_policy]
+      $redis.hset(session[:account], :surname,    params[:num_passport])   if params[:num_passport]
+      $redis.hset(session[:account], :name,       params[:telephone])      if params[:telephone]
+      $redis.hset(session[:account], :patronymic, params[:email])          if params[:email]
+      $redis.hset(session[:account], :card,       params[:num_med_policy]) if params[:num_med_policy]
     end
 
     def short_date
-      year  = $redis.hget session[:account_id], :year
-      month = $redis.hget session[:account_id], :month
-      day   = $redis.hget session[:account_id], :day
+      year  = $redis.hget session[:account], :year
+      month = $redis.hget session[:account], :month
+      day   = $redis.hget session[:account], :day
 
       Time.new(year, month, day).strftime("%F")
     end
@@ -313,7 +313,7 @@ class ReceptionsController < ApplicationController
     def save_request_visit_to_doctor
       flag_awaiting = Flag.find_by_id(2)
       record = Record.new
-      record.account_id = session[:account_id]
+      record.account = current_account
       record.surname = surname
       record.name = name
       record.patronymic = patronymic if patronymic
