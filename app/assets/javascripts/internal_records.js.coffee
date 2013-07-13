@@ -7,10 +7,7 @@ if location.pathname.match(/\/internal_records\/?/)?
                                                  '/scripts/vendor/jquery/jquery-migrate.js',
                                                  '/scripts/vendor/jquery/plugins/datepicker.js',
                                                  '/scripts/vendor/jquery/plugins/jquery.noty.js',
-                                                 '/scripts/vendor/jquery/plugins/jquery.ui.custom.js',
                                                  '/scripts/vendor/jquery/plugins/jquery.cookie.js',
                                                  '/scripts/vendor/jquery/plugins/layouts/bottomRight.js',
                                                  '/scripts/vendor/jquery/plugins/themes/default.js',
                                                  '/scripts/apps/internal_records/internal_records.js' ]
-   document.addEventListener "DOMContentLoaded", loaded_css path for path in [
-                                                 '/stylesheets/vendor/jquery/plugins/ui.custom.css' ]
