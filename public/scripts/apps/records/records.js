@@ -90,24 +90,43 @@ function successRecord() {
 
 function cancelRecord() {
     var id = this.parentNode.parentNode.id;
-    record = new Confirm();
-    record.id = id;
-    record.status = "cancel";
-    record.description = "Превышена квота";
-    $.ajax({
-        type: "DELETE",
-        url: "records",
-        data: { record: JSON.stringify(record, replacer) },
-        dataType: "json",
-        success: function( data ) {
-            updateEntryOfWaitingList( data.success );
-            info( data.success.info );
-            $(self).dialog("close");
-        },
-        error: function( data ) {
-            info( data.status );
-	}
-    });
+    dialogConfirm(id).dialog('open');
+}
+
+function dialogConfirm(id) {
+    return $("#dialog-confirm").dialog({
+        autoOpen: false,
+        resizable: true,
+        height: 260,
+        width: 500,
+        modal: true,
+        buttons: {
+            "Подтвердить": function() {
+		record = new Confirm();
+		record.id = id;
+		record.status = "cancel";
+		record.description = document.getElementById("dialog-message").value;
+		$.ajax({
+		    type: "DELETE",
+		    url: "records",
+		    data: { record: JSON.stringify(record, replacer) },
+		    dataType: "json",
+		    success: function( data ) {
+			updateEntryOfWaitingList( data.success );
+			info( data.success.info );
+		    },
+		    error: function( data ) {
+			info( data.status );
+		    }
+		});
+
+                $( this ).dialog( "close" );
+            },
+            "Отмена": function() {
+                $( this ).dialog( "close" );
+            }
+        }
+    });  
 }
 
 function initButtons() {
@@ -122,3 +141,4 @@ function initButtons() {
 
 initCalendar();
 initMenuDoctors();
+dialogConfirm();
