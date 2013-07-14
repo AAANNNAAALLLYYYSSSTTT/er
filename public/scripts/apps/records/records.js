@@ -102,23 +102,23 @@ function dialogConfirm(id) {
         modal: true,
         buttons: {
             "Подтвердить": function() {
-		record = new Confirm();
-		record.id = id;
-		record.status = "cancel";
-		record.description = document.getElementById("dialog-message").value;
-		$.ajax({
-		    type: "DELETE",
-		    url: "records",
-		    data: { record: JSON.stringify(record, replacer) },
-		    dataType: "json",
-		    success: function( data ) {
-			updateEntryOfWaitingList( data.success );
-			info( data.success.info );
-		    },
-		    error: function( data ) {
-			info( data.status );
-		    }
-		});
+                record = new Confirm();
+                record.id = id;
+                record.status = "cancel";
+                record.description = document.getElementById("dialog-message").value;
+                $.ajax({
+                    type: "DELETE",
+                    url: "records",
+                    data: { record: JSON.stringify(record, replacer) },
+                    dataType: "json",
+                    success: function( data ) {
+                        updateEntryOfWaitingList( data.success );
+                        info( data.success.info );
+                    },
+                        error: function( data ) {
+                        info( data.status );
+                    }
+                });
 
                 $( this ).dialog( "close" );
             },

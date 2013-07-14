@@ -1,4 +1,4 @@
-<table class="patientsRerodsTable" style="width: 100%;>
+<table class="patientsRerodsTable" style="width: 100%;">
   <thead>
     <tr>
       <td>Фамилия</td>
@@ -10,21 +10,21 @@
   <tbody>
     <% @records.each do |record| %>
         <% if record.flag == accepted %>
-          <tr class="commit">
+          <tr class="<%= record.flag.name %>">
             <td><%= record.surname %></td>
             <td><%= record.name %></td>
             <td><%= record.card %></td>
             <td><input type="button" id="record_<%= record.id %>" class="commit" value="На печать" /></td>
           </tr>
         <% elsif record.flag == rejected %>
-          <tr class="cancel">
+          <tr class="<%= record.flag.name %>">
             <td><%= record.surname %></td>
             <td><%= record.name %></td>
             <td><%= record.card %></td>
-	    <td><textarea name="comment" id="record_<%= record.id %>" cols="40" rows="3" disabled="disabled"><%= record.description %></textarea></td>
+	    <td><textarea class="cancel" id="record_<%= record.id %>" cols="40" rows="3" readonly="readonly"><%= record.description %></textarea></td>
           </tr>
         <% elsif record.flag == awaiting %>
-          <tr class="wait">
+          <tr class="<%= record.flag.name %>">
             <td><%= record.surname %></td>
             <td><%= record.name %></td>
             <td><%= record.card %></td>
@@ -34,8 +34,3 @@
     <% end %>
   </tbody>
 </table>
-<script type="text/javascript" defer="defer">
-    initWait();
-    initCommit();
-    initCancel();
-</script>

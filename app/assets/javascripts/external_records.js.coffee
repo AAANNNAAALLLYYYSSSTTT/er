@@ -3,11 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 if location.pathname.match(/\/external_records\/?/)?
-   document.addEventListener "DOMContentLoaded", loaded_js path for path in [
-                                                 '/scripts/vendor/jquery/jquery-migrate.js',
-                                                 '/scripts/vendor/jquery/plugins/datepicker.js',
-                                                 '/scripts/vendor/jquery/plugins/jquery.noty.js',
-                                                 '/scripts/vendor/jquery/plugins/jquery.cookie.js',
-                                                 '/scripts/vendor/jquery/plugins/layouts/bottomRight.js',
-                                                 '/scripts/vendor/jquery/plugins/themes/default.js',
-                                                 '/scripts/apps/external_records/external_records.js' ]
+    jQuery.getScript path for path in [
+        '/scripts/vendor/jquery/jquery-migrate.js',
+        '/scripts/vendor/jquery/plugins/datepicker.js',
+        '/scripts/vendor/jquery/plugins/jquery.noty.js',
+        '/scripts/vendor/jquery/plugins/jquery.cookie.js',
+        '/scripts/vendor/jquery/plugins/layouts/bottomRight.js',
+        '/scripts/vendor/jquery/plugins/themes/default.js',
+        '/scripts/apps/external_records/external_records.js' ]

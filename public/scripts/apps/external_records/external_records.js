@@ -38,12 +38,13 @@ function initMenuDoctors() {
 
 function updateRecords(data) {
     $('#records_table').html(data);
+    initActionButton();
 }
 
 function initCancel() {
-    var content = $('#cancel');
+    var content = $('textarea.cancel');
     for (var i = 0; i < content.length; ++i) {
-        content[0].onclick = infoCancel;
+        content[i].onclick = infoCancel;
     }
 }
 
@@ -51,7 +52,7 @@ function infoCancel(e) {
     e = e || event;
     var target = e.target || e.srcElement;
     var dialogContentEl = $('#dialog-content')
-    replaceText(dialogContentEl, target.value);
+    $('#dialog-content').html(target.value);
     $("#dialog-info").dialog({
         position: 'center',
         height: 140,
@@ -61,9 +62,9 @@ function infoCancel(e) {
 }
 
 function initWait() {
-    var content = $('.wait');
+    var content = $('input.wait');
     for (var i = 0; i < content.length; ++i) {
-        content[0].onclick = deleteRecord;
+        content[i].onclick = deleteRecord;
     }
 }
 
@@ -93,13 +94,13 @@ function updateRecord(data) {
     inputEl.className = "cancel";
     inputEl.disabled = "disabled"
     parent(inputEl, 2).className = "cancel";
-    initCancel();
+    initActionButton();
 }
 
 function initCommit() {
-    var content = $('.commit');
+    var content = $('input.commit');
     for (var i = 0; i < content.length; ++i) {
-        content[0].onclick = printRecord;
+        content[i].onclick = printRecord;
     }
 }
 
@@ -109,8 +110,12 @@ function printRecord(e) {
     window.open('/ticket?id='+target.id.replace( /^\D+/g, ''), '_blank')
 }
 
+function initActionButton() {
+    initCancel();
+    initWait();
+    initCommit();
+}
+
 initCalendar();
 initMenuDoctors();
-initCancel();
-initWait();
-initCommit();
+initActionButton();

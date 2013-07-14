@@ -88,7 +88,7 @@ function saveAll() {
             switch (j) {
             case 0:
                 var writeTxt = cells[j].getElementsByTagName('input')[0];
-                if (writeTxt.disabled == false && writeTxt.value != '') {
+                if (writeTxt.readOnly == false && writeTxt.value != '') {
                     var newRecord = new Record()
                     newRecord.doctor = doctor;
                     newRecord.write = writeTxt.value;

@@ -26,6 +26,18 @@
     .cellMiddle {
       width: 50%;
       align: center;
+
+      .accepted {
+        background-color: #00FF00;
+      }
+
+      .awaiting {
+        background-color: #FFFF00;
+      }
+
+      .rejected {
+        background-color: #FF0000;
+      }
     }
   }
 }
