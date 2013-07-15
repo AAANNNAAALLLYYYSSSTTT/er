@@ -139,6 +139,9 @@ function initButtons() {
     }
 }
 
-initCalendar();
-initMenuDoctors();
-dialogConfirm();
+$(function() {
+    document.title = "Подтверждения";
+    initCalendar();
+    initMenuDoctors();
+    dialogConfirm();
+});

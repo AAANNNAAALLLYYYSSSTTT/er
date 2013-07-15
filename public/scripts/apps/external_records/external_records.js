@@ -116,6 +116,9 @@ function initActionButton() {
     initCommit();
 }
 
-initCalendar();
-initMenuDoctors();
-initActionButton();
+$(function() {
+    document.title = "Журнал";
+    initCalendar();
+    initMenuDoctors();
+    initActionButton();
+});

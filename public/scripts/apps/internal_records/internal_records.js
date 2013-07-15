@@ -141,6 +141,10 @@ function cancelRecord() {
     dialogConfirm(id).dialog('open');
 }
 
-initCalendar();
-initMenuDoctors();
-initSaveAllButton();
+$(function() {
+    document.title = "Запись";
+    initCalendar();
+    initMenuDoctors();
+    initSaveAllButton();
+});
+

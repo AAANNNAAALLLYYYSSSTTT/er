@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <% @quotum_doctors.each do |quotum_doctor| %>
-      <tr>
+      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
         <td><div class="label"><%= quotum_doctor.doctor.id %></div></td>
         <td><div class="label"><%= quotum_doctor.doctor.surname %></div></td>
         <td><div class="label"><%= quotum_doctor.doctor.name %></div></td>

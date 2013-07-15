@@ -102,6 +102,9 @@ function updateQuotas(data) {
     replaceText(quotasEl, data);
 }
 
-initCalendar();
-initCalendarSel();
-initSaveAllButton();
+$(function() {
+    document.title = "Квота";
+    initCalendar();
+    initCalendarSel();
+    initSaveAllButton();
+});

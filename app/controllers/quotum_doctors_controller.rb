@@ -27,29 +27,39 @@ class QuotumDoctorsController < ApplicationController
   def create
     respond_to do |format|
       date = get_selected_date_for_current_user
-      @quotum_doctors = QuotumDoctor.where(year: date.year, month: date.month, day: date.day).order(:id)
       format.html {
-        if @quotum_doctors.count == 0
-          @doctors = Doctor.where(status_id: 1).order(:surname)
-          render :layout => false, template: 'quotum_doctors/_empty_quotum_doctors'
+        if params[:quotum_doctor]
+          @quotum_doctor = QuotumDoctor.new(quotum_doctor_params)
+
+          if @quotum_doctor.save
+            redirect_to @quotum_doctor
+          end
         else
-          render :layout => false, template: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
+          @quotum_doctors = QuotumDoctor.where(year: date.year, month: date.month, day: date.day).order(:id)
+          if @quotum_doctors.count == 0
+            @doctors = Doctor.where(status_id: 1).order(:surname)
+            render :layout => false, template: 'quotum_doctors/_empty_quotum_doctors'
+          else
+            render :layout => false, template: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
+          end
         end
       }
       format.json {
-        parsed_json_quotas = ActiveSupport::JSON.decode(params[:quotas])
-        parsed_json_quotas.each do |quota_hash|
-          doctor = Doctor.find_by_id(quota_hash['key'].to_i)
+        if params[:quotas]
+          parsed_json_quotas = ActiveSupport::JSON.decode(params[:quotas])
+          parsed_json_quotas.each do |quota_hash|
+            doctor = Doctor.find_by_id(quota_hash['key'].to_i)
 
-          quotum_doctor = QuotumDoctor.find_or_create_by(year: date.year, month: date.month, day: date.day, doctor: doctor)
-          quotum_doctor.full = quota_hash['quota'].to_i
-          quotum_doctor.currently = quota_hash['quota'].to_i
-          quotum_doctor.status = quota_hash['active'] ? Status.find_by_id(1) : Status.find_by_id(3)
-          quotum_doctor.post = doctor.post
-          quotum_doctor.description = quota_hash['description']
-          quotum_doctor.save
+            quotum_doctor = QuotumDoctor.find_or_create_by(year: date.year, month: date.month, day: date.day, doctor: doctor)
+            quotum_doctor.full = quota_hash['quota'].to_i
+            quotum_doctor.currently = quota_hash['quota'].to_i
+            quotum_doctor.status = quota_hash['active'] ? Status.find_by_id(1) : Status.find_by_id(3)
+            quotum_doctor.post = doctor.post
+            quotum_doctor.description = quota_hash['description']
+            quotum_doctor.save
+          end
+          render json: { status: "Ok" }
         end
-        render json: {status: "Ok"}
       }
     end
   end

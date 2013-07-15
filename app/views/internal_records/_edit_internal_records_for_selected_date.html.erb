@@ -41,9 +41,9 @@
   <tfoot>
     <tr>
       <td colspan="2">
-        <% unless @records.none? %>
-          <button id="saveAll" class="button" type="button">Сохранить</button>
-        <% end %>
+	<% if @records.count > 0 %>
+        <button id="saveAll" class="button" type="button">Сохранить</button>
+	<% end %>
       </td>
     </tr>
   </tfoot>

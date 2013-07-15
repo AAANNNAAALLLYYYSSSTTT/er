@@ -18,7 +18,7 @@
 
   <tbody>
     <% @doctors.each do |doctor| %>
-      <tr>
+      <tr class="<%= cycle('list_line_odd', 'list_line_even') %>">
         <td><%= doctor.surname %></td>
         <td><%= doctor.name %></td>
         <td><%= doctor.patronymic %></td>

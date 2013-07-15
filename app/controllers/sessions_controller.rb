@@ -61,7 +61,7 @@ class SessionsController < ApplicationController
   private
     def redirect_after_successful_authenticate
       redirect_to internal_records_url and return if is_current_account_roles? [:admin, :receptionist]
-      redirect_to external_records_url and return if is_current_account_roles? [:user]
+      redirect_to receptions_url and return if is_current_account_roles? [:user]
       redirect_to login_url and return
     end
 

@@ -21,7 +21,7 @@
   </div>
   <div class="field">
     <%= f.label :doctor_id %><br>
-    <%= f.collection_select :doctor_id, Doctor.all, :id, :name, { :prompt => 'Select doctor' } %>
+    <%= f.collection_select :doctor_id, Doctor.all, :id, :surname, { :prompt => 'Select doctor' } %>
   </div>
   <div class="field">
     <%= f.label :post_id %><br>

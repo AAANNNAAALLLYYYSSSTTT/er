@@ -4,7 +4,7 @@ class InternalRecordsController < ApplicationController
   # GET /internal_records
   def index
     @posts = Post.order(:name)
-    @doctors = Doctor.order(:surname)
+    @doctors = Doctor.where(status: Status.on).order(:surname)
   end
 
   # POST /internal_records
@@ -12,17 +12,15 @@ class InternalRecordsController < ApplicationController
   def create
     respond_to do |format|
       date = get_selected_date_for_current_user
-      flag_accepted = Flag.find_by_id(1)
-      role_receptionist = Role.find_by_id(3)
       format.html {
         @doctor = Doctor.find_by_id(params['key'])
-        quotum_doctor = QuotumDoctor.where(year: date.year, month: date.month, day: date.day, doctor: @doctor).first
-        @records = Record.where(year: date.year, month: date.month, day: date.day, doctor: @doctor, flag: flag_accepted)
+        quotum_doctor = QuotumDoctor.where(year: date.year, month: date.month, day: date.day, doctor: @doctor, status: Status.on).first
+        @records = Record.where(year: date.year, month: date.month, day: date.day, doctor: @doctor, flag: Flag.accepted)
         @empty_records_count = quotum_doctor ? quotum_doctor.currently : 0
         @external_records = []
         @internal_records = []
         @records.each do |record|
-          if record.account.role == role_receptionist
+          if record.account.role == Role.receptionist
             @internal_records << record
           else
             @external_records << record
@@ -31,14 +29,16 @@ class InternalRecordsController < ApplicationController
         render :layout => false, template: 'internal_records/_edit_internal_records_for_selected_date'
       }
       format.json {
+        # TODO: fix code 84
+        account_receptionist = Account.find_by_id(84)
         parsed_json_records = ActiveSupport::JSON.decode(params[:records])
         doctor = Doctor.find_by_id(parsed_json_records['doctor'])
         records = Record.where(year: date.year, month: date.month, day: date.day, doctor: doctor)
-        records.each { |record| record.delete if record.account.role == role_receptionist }
+        records.each { |record| record.delete if record.account.role == Role.receptionist }
         parsed_json_records['list'].each do |record_hash|
           next if record_hash['write'].empty?
           record = Record.new
-          record.account = current_account
+          record.account = account_receptionist
           record.surname = 'none'
           record.name = 'none'
           record.card = 'none'

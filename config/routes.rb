@@ -15,8 +15,11 @@ Er::Application.routes.draw do
     post 'receptions-to-doctor' => :create
   end
 
-  get  'ticket', to: 'ticket#show'
-  post 'ticket_empty', to: 'ticket#index'
+  controller :ticket do
+    get  'ticket'       => :show
+    get  'ticket_empty' => :index
+    post 'ticket_empty' => :index
+  end
 
   post 'date', to: 'date#create'
 

@@ -11,6 +11,14 @@
       display: table-cell !important;
       display: inline;            /* IE */
       vertical-align: top;
+
+      .list_line_even {
+        background: #e0f8f8;
+      }
+
+      .list_line_odd {
+        background: #e6e6e6;
+      }
     }
 
     .cellRight {
