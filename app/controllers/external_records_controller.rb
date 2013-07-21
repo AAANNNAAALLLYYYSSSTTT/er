@@ -5,6 +5,7 @@ class ExternalRecordsController < ApplicationController
   def index
     @posts = Post.order(:name)
     @doctors = Doctor.order(:surname)
+    render :layout => 'cabinet'
   end
 
   # POST /external_records
@@ -13,12 +14,9 @@ class ExternalRecordsController < ApplicationController
     keep_selected_date
     respond_to do |format|
       date = get_selected_date_for_current_user
-      flag_accepted = Flag.find_by_id(1)
-      flag_awaiting = Flag.find_by_id(2)
-      flag_rejected = Flag.find_by_id(3)
       format.html {
         @records = Record.where(account: current_account, year: date.year, month: date.month, day: date.day)
-        render partial: 'external_records/edit_external_records_for_selected_date', locals: { accepted: flag_accepted, awaiting: flag_awaiting, rejected: flag_rejected }
+        render partial: 'external_records/edit_external_records_for_selected_date', locals: { accepted: Flag.accepted, awaiting: Flag.awaiting, rejected: Flag.rejected }
       }
     end
   end
@@ -26,10 +24,9 @@ class ExternalRecordsController < ApplicationController
   # DELETE /external_records/1
   # DELETE /external_records/1.json
   def destroy
-    flag_rejected = Flag.find_by_id(3)
     params[:id].match(/([\d]+)/)
     record_id = $1
-    Record.update(record_id, flag: flag_rejected, description: 'Removed by the user')
+    Record.update(record_id, flag: Flag.rejected, description: 'Removed by the user')
     result_destroy = { success: { id: record_id, info: 'Deleting the record' } }
   rescue => error
     result_destroy = { error: { info: error } }

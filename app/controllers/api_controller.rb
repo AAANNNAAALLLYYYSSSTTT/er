@@ -5,8 +5,7 @@ class ApiController < ApplicationController
     year  = params[:year]
     month = params[:month]
     day   = params[:day]
-    flag_accepted = Flag.find_by_id(1)
-    records = Record.where(year: year, month: month, day: day, flag: flag_accepted)
+    records = Record.where(year: year, month: month, day: day, flag: Flag.accepted)
     @records_doctor = records.group_by { |record| record.doctor }
     respond_to do |format|
       format.xml { render partial: 'records_for_date' }

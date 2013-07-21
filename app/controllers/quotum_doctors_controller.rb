@@ -37,10 +37,10 @@ class QuotumDoctorsController < ApplicationController
         else
           @quotum_doctors = QuotumDoctor.where(year: date.year, month: date.month, day: date.day).order(:id)
           if @quotum_doctors.count == 0
-            @doctors = Doctor.where(status_id: 1).order(:surname)
-            render :layout => false, template: 'quotum_doctors/_empty_quotum_doctors'
+            @doctors = Doctor.where(status: Status.on).order(:surname)
+            render partial: 'quotum_doctors/_empty_quotum_doctors'
           else
-            render :layout => false, template: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
+            render partial: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
           end
         end
       }
@@ -53,7 +53,7 @@ class QuotumDoctorsController < ApplicationController
             quotum_doctor = QuotumDoctor.find_or_create_by(year: date.year, month: date.month, day: date.day, doctor: doctor)
             quotum_doctor.full = quota_hash['quota'].to_i
             quotum_doctor.currently = quota_hash['quota'].to_i
-            quotum_doctor.status = quota_hash['active'] ? Status.find_by_id(1) : Status.find_by_id(3)
+            quotum_doctor.status = quota_hash['active'] ? Status.on : Status.off
             quotum_doctor.post = doctor.post
             quotum_doctor.description = quota_hash['description']
             quotum_doctor.save

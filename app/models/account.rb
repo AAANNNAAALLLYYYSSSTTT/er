@@ -7,4 +7,7 @@ class Account < ActiveRecord::Base
   belongs_to :role
   belongs_to :status
   has_many :records
+
+  GENERAL_RECEPTIONIST_ID = 84
+
 end

@@ -118,7 +118,8 @@ function initActionButton() {
 
 $(function() {
     document.title = "Журнал";
-    initCalendar();
-    initMenuDoctors();
-    initActionButton();
 });
+
+initCalendar();
+initMenuDoctors();
+initActionButton();

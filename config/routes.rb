@@ -1,5 +1,7 @@
 Er::Application.routes.draw do
 
+  root 'sessions#new'
+
   get 'api/get_records_for_date', defaults: { format: 'xml' }
 
   controller :records do

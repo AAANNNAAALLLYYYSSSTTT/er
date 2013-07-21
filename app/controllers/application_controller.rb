@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     end
 
     def current_account
-      current_user ||= Account.find_by_id($redis.hget(session[:account], :id)) if logged_in?
+      @current_user ||= Account.find_by_id($redis.hget(session[:account], :id)) if logged_in?
     end
 
     def is_current_account_roles? roles

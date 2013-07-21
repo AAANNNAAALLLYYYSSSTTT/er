@@ -16,7 +16,7 @@ class InternalRecordsController < ApplicationController
         @doctor = Doctor.find_by_id(params['key'])
         quotum_doctor = QuotumDoctor.where(year: date.year, month: date.month, day: date.day, doctor: @doctor, status: Status.on).first
         @records = Record.where(year: date.year, month: date.month, day: date.day, doctor: @doctor, flag: Flag.accepted)
-        @empty_records_count = quotum_doctor ? quotum_doctor.currently : 0
+        @empty_records_count = quotum_doctor ? quotum_doctor.full - @records.count : 0
         @external_records = []
         @internal_records = []
         @records.each do |record|
@@ -26,11 +26,10 @@ class InternalRecordsController < ApplicationController
             @external_records << record
           end
         end
-        render :layout => false, template: 'internal_records/_edit_internal_records_for_selected_date'
+        render partial: 'internal_records/_edit_internal_records_for_selected_date'
       }
       format.json {
-        # TODO: fix code 84
-        account_receptionist = Account.find_by_id(84)
+        account_receptionist = Account.find_by_id(Account::GENERAL_RECEPTIONIST_ID)
         parsed_json_records = ActiveSupport::JSON.decode(params[:records])
         doctor = Doctor.find_by_id(parsed_json_records['doctor'])
         records = Record.where(year: date.year, month: date.month, day: date.day, doctor: doctor)
@@ -47,7 +46,7 @@ class InternalRecordsController < ApplicationController
           record.year = date.year
           record.month = date.month
           record.day = date.day
-          record.flag = flag_accepted
+          record.flag = Flag.accepted
           record.save
         end
         render json: { status: "Ok" }

@@ -143,8 +143,8 @@ function cancelRecord() {
 
 $(function() {
     document.title = "Запись";
-    initCalendar();
-    initMenuDoctors();
-    initSaveAllButton();
 });
 
+initCalendar();
+initMenuDoctors();
+initSaveAllButton();

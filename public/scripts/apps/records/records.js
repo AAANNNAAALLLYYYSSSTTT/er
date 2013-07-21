@@ -141,7 +141,8 @@ function initButtons() {
 
 $(function() {
     document.title = "Подтверждения";
-    initCalendar();
-    initMenuDoctors();
-    dialogConfirm();
 });
+
+initCalendar();
+initMenuDoctors();
+dialogConfirm();

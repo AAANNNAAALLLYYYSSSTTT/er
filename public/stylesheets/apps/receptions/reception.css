@@ -418,7 +418,7 @@ body {
     background: url(/images/under_doctor.png) no-repeat;
     list-style-type: none;
     height: 73px;
-    width: 403px;
+    width: 373px;
     display:inline-block;
     /*vertical-align: middle;*/
     overflow:hidden;
@@ -483,7 +483,7 @@ body {
 
 .profile-div2{
     height: 100%;
-    width: 400px;
+    width: 370px;
     display:table; 
     vertical-align: middle;
 }

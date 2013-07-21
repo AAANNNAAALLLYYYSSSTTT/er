@@ -104,7 +104,8 @@ function updateQuotas(data) {
 
 $(function() {
     document.title = "Квота";
-    initCalendar();
-    initCalendarSel();
-    initSaveAllButton();
 });
+
+initCalendar();
+initCalendarSel();
+initSaveAllButton();
