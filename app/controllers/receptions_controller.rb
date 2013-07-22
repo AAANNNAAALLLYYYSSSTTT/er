@@ -9,6 +9,7 @@ class ReceptionsController < ApplicationController
 
   def create
     if request.get?
+      keep_current_date
       render :layout => 'receptions'
     elsif request.post?
       if params[:command]
@@ -150,12 +151,11 @@ class ReceptionsController < ApplicationController
   end
 
   def render_schedule_of_doctor
-    date_now = Time.now
     calendar = Calendar.new
     @account = current_account
     @doctor_selected = Doctor.find_by_id(doctor)
     @status_days = quotum_of_doctor
-    @month_days = calendar.monthdays_calendar date_now.year, date_now.month
+    @month_days = calendar.monthdays_calendar year, month
     respond_to do |format|
       format.html { render partial: 'receptions/schedule_of_doctor' }
     end
@@ -264,6 +264,13 @@ class ReceptionsController < ApplicationController
       $redis.hset(session[:account], :year,  params[:year])  if params[:year]
       $redis.hset(session[:account], :month, params[:month]) if params[:month]
       $redis.hset(session[:account], :day,   params[:day])   if params[:day]
+    end
+
+    def keep_current_date
+      date_now = Time.now
+      $redis.hset(session[:account], :year,  date_now.year)
+      $redis.hset(session[:account], :month, date_now.month)
+      $redis.hset(session[:account], :day,   date_now.day)
     end
 
     def keep_selected_post

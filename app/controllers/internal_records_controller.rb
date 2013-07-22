@@ -26,7 +26,7 @@ class InternalRecordsController < ApplicationController
             @external_records << record
           end
         end
-        render partial: 'internal_records/_edit_internal_records_for_selected_date'
+        render partial: 'internal_records/edit_internal_records_for_selected_date'
       }
       format.json {
         account_receptionist = Account.find_by_id(Account::GENERAL_RECEPTIONIST_ID)

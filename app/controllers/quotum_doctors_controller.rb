@@ -38,9 +38,9 @@ class QuotumDoctorsController < ApplicationController
           @quotum_doctors = QuotumDoctor.where(year: date.year, month: date.month, day: date.day).order(:id)
           if @quotum_doctors.count == 0
             @doctors = Doctor.where(status: Status.on).order(:surname)
-            render partial: 'quotum_doctors/_empty_quotum_doctors'
+            render partial: 'quotum_doctors/empty_quotum_doctors'
           else
-            render partial: 'quotum_doctors/_edit_quotum_doctors_for_selected_date'
+            render partial: 'quotum_doctors/edit_quotum_doctors_for_selected_date'
           end
         end
       }
